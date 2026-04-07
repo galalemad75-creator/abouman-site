@@ -1,5 +1,5 @@
 /* ============================================
-   Dr. Ibrahim El-Feki — Main App
+   The Legend of Abou Man — App Logic
    ============================================ */
 
 const player = document.getElementById('player');
@@ -14,28 +14,40 @@ document.addEventListener('DOMContentLoaded', () => {
   initChapters();
 });
 
+/* ---- Theme ---- */
 function initTheme() {
-  const saved = localStorage.getItem('elfeki_theme');
+  const saved = localStorage.getItem('ab_theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const theme = saved || (prefersDark ? 'dark' : 'light');
   document.documentElement.setAttribute('data-theme', theme);
+  updateThemeIcon(theme);
+
   const toggle = document.getElementById('themeToggle');
   if (toggle) {
     toggle.addEventListener('click', () => {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('elfeki_theme', next);
+      localStorage.setItem('ab_theme', next);
+      updateThemeIcon(next);
     });
   }
 }
 
+function updateThemeIcon(theme) {
+  const icon = document.querySelector('.theme-icon');
+  if (icon) icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+}
+
+/* ---- Navigation ---- */
 function initNav() {
   const header = document.getElementById('header');
   const hamburger = document.getElementById('hamburger');
   const navMenu = document.getElementById('navMenu');
+
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
+
   if (hamburger && navMenu) {
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
@@ -48,18 +60,35 @@ function initNav() {
       });
     });
   }
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 200) {
+        current = section.id;
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }, { passive: true });
 }
 
+/* ---- Scroll Animations ---- */
 function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
-        const parent = el.parentElement;
-        if (parent && parent.classList.contains('chapters-grid')) {
-          const siblings = Array.from(parent.children);
-          const i = siblings.indexOf(el);
-          el.style.transitionDelay = `${i * 0.05}s`;
+        if (el.parentElement && el.parentElement.classList.contains('chapters-grid')) {
+          const siblings = Array.from(el.parentElement.children);
+          el.style.transitionDelay = `${siblings.indexOf(el) * 0.08}s`;
         }
         el.classList.add('visible');
         observer.unobserve(el);
@@ -70,6 +99,7 @@ function initScrollAnimations() {
   document.querySelectorAll('.card, .animate-on-scroll').forEach(el => observer.observe(el));
 }
 
+/* ---- Chapters ---- */
 async function initChapters() {
   await DB.init();
   chapters = DB.getChapters();
@@ -79,21 +109,30 @@ async function initChapters() {
 function renderChapters() {
   const grid = document.getElementById('chaptersGrid');
   if (!grid) return;
-  grid.innerHTML = chapters.map(c => `
-    <div class="card" onclick="openChapter(${c.id})">
-      <div class="num">${c.id}</div>
-      <div class="name">${c.icon} ${c.name}</div>
-      <div class="count">${(c.songs || []).length} episode${(c.songs || []).length !== 1 ? 's' : ''}</div>
-    </div>
-  `).join('');
 
+  grid.innerHTML = chapters.map(c => {
+    const songCount = (c.songs || []).length;
+    const img = c.songs?.[0]?.image || '';
+    const imgHtml = img ? `<img src="${img}" alt="${c.name}" class="card-img" onerror="this.style.display='none'" loading="lazy">` : '';
+
+    return `
+      <div class="card" onclick="openChapter(${c.id})">
+        ${imgHtml}
+        <div class="num">${c.id}</div>
+        <div class="name">${c.icon} ${c.name}</div>
+        <div class="count">${songCount} ${songCount === 1 ? 'track' : 'tracks'}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Re-observe new cards
   setTimeout(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
           const siblings = Array.from(el.parentElement.children);
-          el.style.transitionDelay = `${siblings.indexOf(el) * 0.05}s`;
+          el.style.transitionDelay = `${siblings.indexOf(el) * 0.08}s`;
           el.classList.add('visible');
           observer.unobserve(el);
         }
@@ -107,30 +146,39 @@ function openChapter(id) {
   currentChapter = chapters.find(c => c.id === id);
   if (!currentChapter) return;
 
-  const hero = document.getElementById('hero');
-  const features = document.getElementById('features');
-  const chaptersSection = document.getElementById('chapters');
-  const ctaSection = document.querySelector('.cta-section');
+  // Hide main sections
+  ['hero', 'about', 'chapters', 'buySection', 'contact'].forEach(sId => {
+    const el = document.getElementById(sId);
+    if (el) el.style.display = 'none';
+  });
 
-  if (hero) hero.style.display = 'none';
-  if (features) features.style.display = 'none';
-  if (chaptersSection) chaptersSection.style.display = 'none';
-  if (ctaSection) ctaSection.style.display = 'none';
-
+  // Show songs view
   let sv = document.getElementById('songsView');
-  if (!sv) { createSongsView(); sv = document.getElementById('songsView'); }
+  if (!sv) {
+    createSongsView();
+    sv = document.getElementById('songsView');
+  }
   sv.style.display = 'block';
 
-  document.getElementById('chapterTitle').textContent = currentChapter.icon + ' ' + currentChapter.name;
+  const chImg = currentChapter.songs?.[0]?.image || '';
+  document.getElementById('chapterTitle').textContent = `${currentChapter.icon} ${currentChapter.name}`;
 
   const sl = document.getElementById('songsList');
   if (!currentChapter.songs || !currentChapter.songs.length) {
-    sl.innerHTML = `<div class="empty"><div class="empty-icon">🎙️</div><h3 style="margin-bottom:8px;">No episodes yet</h3><p>Episodes coming soon — stay tuned!</p></div>`;
+    sl.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🎙️</div>
+        <h3 style="margin-bottom:8px;">لا توجد أغاني بعد</h3>
+        <p>سيتم إضافة الأغاني قريباً</p>
+      </div>`;
   } else {
     sl.innerHTML = currentChapter.songs.map((s, i) => `
-      <div class="song-card" id="sc-${i}">
+      <div class="song-card" id="sc-${i}" onclick="playSong(${i})">
+        ${s.image ? `<img src="${s.image}" class="song-img" onerror="this.style.display='none'" loading="lazy">` : '<div class="song-img" style="background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎵</div>'}
+        <div class="song-info">
+          <div class="song-title">${s.title}</div>
+        </div>
         <button class="song-play" onclick="event.stopPropagation(); playSong(${i})">▶</button>
-        <span class="song-title">${s.title}</span>
       </div>
     `).join('');
   }
@@ -142,36 +190,44 @@ function createSongsView() {
   sv.id = 'songsView';
   sv.className = 'songs-view';
   sv.innerHTML = `
-    <button class="back-btn" onclick="showHome()">← Back to Topics</button>
+    <button class="back-btn" onclick="showHome()">← العودة للأبواب</button>
     <h2 id="chapterTitle" style="margin-bottom:24px;"></h2>
     <div id="songsList"></div>
   `;
-  document.querySelector('main')?.appendChild(sv) || document.body.insertBefore(sv, document.querySelector('.np-bar'));
+  document.body.insertBefore(sv, document.querySelector('.np-bar'));
 }
 
 function showHome() {
-  ['hero', 'features', 'chapters'].forEach(id => {
+  ['hero', 'about', 'chapters', 'contact'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = '';
   });
-  const cta = document.querySelector('.cta-section');
-  if (cta) cta.style.display = '';
+
+  // Show buy section if link exists
+  const buyUrl = localStorage.getItem('ab_buyurl');
+  const buySection = document.getElementById('buySection');
+  if (buySection && buyUrl) buySection.style.display = '';
+
   const sv = document.getElementById('songsView');
   if (sv) sv.style.display = 'none';
   currentChapter = null;
 }
 
+/* ---- Player ---- */
 function playSong(i) {
   if (!currentChapter || !currentChapter.songs || !currentChapter.songs[i]) return;
   currentSong = i;
   const s = currentChapter.songs[i];
   if (!s.audio) return;
+
   player.src = s.audio;
   player.play().catch(() => {});
 
-  document.querySelector('.np-bar').classList.add('show');
+  const npBar = document.getElementById('npBar');
+  npBar.classList.add('show');
   document.getElementById('npTitle').textContent = s.title;
   document.getElementById('npSub').textContent = currentChapter.name;
+
   const npImg = document.getElementById('npImg');
   if (s.image) { npImg.src = s.image; npImg.style.display = 'block'; }
   else { npImg.style.display = 'none'; }
@@ -187,22 +243,25 @@ function togglePlay() {
   else { player.pause(); document.getElementById('playBtn').textContent = '▶'; }
 }
 
-function stopAudio() { player.pause(); player.currentTime = 0; document.getElementById('playBtn').textContent = '▶'; }
-
 function closePlayer() {
   player.pause(); player.src = '';
-  document.querySelector('.np-bar').classList.remove('show');
+  document.getElementById('npBar').classList.remove('show');
   document.querySelectorAll('.song-card').forEach(c => c.classList.remove('playing'));
 }
 
-function prevSong() { if (currentChapter && currentSong > 0) playSong(currentSong - 1); }
-function nextSong() { if (currentChapter && currentSong + 1 < currentChapter.songs.length) playSong(currentSong + 1); }
-
-function seekAudio(e) {
-  const bar = e.currentTarget;
-  const pct = e.offsetX / bar.offsetWidth;
-  player.currentTime = pct * player.duration;
+function prevSong() {
+  if (currentChapter && currentSong > 0) playSong(currentSong - 1);
 }
+function nextSong() {
+  if (currentChapter && currentSong + 1 < currentChapter.songs.length) playSong(currentSong + 1);
+}
+
+// Progress bar
+document.querySelector('.np-progress-mini')?.addEventListener('click', function(e) {
+  const rect = this.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  if (player.duration) player.currentTime = pct * player.duration;
+});
 
 player?.addEventListener('timeupdate', () => {
   if (!player.duration) return;
