@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="zh" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الاسطورة اب مان — The Legend Abou Man</title>
-<meta name="description" content="السيرة الذاتية للاسطورة اب مان — أغاني وفصول الكتاب">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+<title>传奇叶问 — The Legend of Ip Man</title>
+<meta name="description" content="传奇叶问 — 音乐与传记">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥋</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,175 +17,131 @@
 <div class="preloader" id="preloader">
   <div class="preloader-inner">
     <div class="preloader-ring"></div>
-    <span class="preloader-text">🎵</span>
+    <span class="preloader-icon">🥋</span>
   </div>
 </div>
 
-<!-- Floating Particles -->
+<!-- Particles -->
 <div class="particles" id="particles"></div>
 
 <!-- Header -->
 <header class="header" id="header">
   <div class="container nav-inner">
-    <a href="index.html" class="logo">
-      <span class="logo-icon">🎵</span>
-      <span class="logo-text">اب مان</span>
+    <a href="#" class="logo" onclick="showHome()">
+      <span class="logo-icon">🥋</span>
+      <span class="logo-text">叶问传奇</span>
     </a>
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
     <ul class="nav-links" id="navMenu">
-      <li><a href="#hero" class="nav-link active">الرئيسية</a></li>
-      <li><a href="#chapters" class="nav-link">الأبواب</a></li>
-      <li><a href="#about" class="nav-link">عن الكتاب</a></li>
-      <li><a href="#contact" class="nav-link">تواصل</a></li>
+      <li><a href="#hero" class="nav-link active">首页</a></li>
+      <li><a href="#chapters" class="nav-link">章节</a></li>
+      <li><a href="#about" class="nav-link">关于</a></li>
     </ul>
     <div class="nav-actions">
-      <button class="theme-btn" id="themeToggle" aria-label="تبديل الثيم">
+      <button class="theme-btn" id="themeToggle" aria-label="切换主题">
         <span class="theme-icon">🌙</span>
       </button>
-      <a href="admin.html" class="btn btn-primary btn-sm admin-btn">🔐 إدارة</a>
+      <a href="admin.html" class="btn btn-primary btn-sm">🔐 管理</a>
     </div>
   </div>
 </header>
 
-<!-- HERO Section -->
+<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
     <div class="hero-cover-wrap">
       <div class="cover-glow"></div>
-      <img src="assets/book-cover.png" alt="غلاف الكتاب" class="hero-cover" onerror="this.style.display='none'">
+      <img src="assets/book-cover.png" alt="书籍封面" class="hero-cover" id="heroCover" onerror="this.style.display='none'">
       <div class="cover-badge">🔥 NEW</div>
     </div>
     <div class="hero-text">
-      <div class="hero-tag">📚 السيرة الذاتية</div>
+      <div class="hero-tag">📖 叶问传奇</div>
       <h1 class="hero-title">
-        <span class="title-line">الاسطورة</span>
-        <span class="title-highlight">اب مان</span>
+        <span class="title-line">传奇</span>
+        <span class="title-accent">叶问</span>
       </h1>
-      <p class="hero-sub">رحلة موسيقية عبر 8 أبواب من الإبداع — استمع الآن</p>
+      <p class="hero-sub">一部震撼人心的音乐传记 — 8章故事，2段音乐</p>
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-num" id="chCount">10</span>
-          <span class="stat-label">باب</span>
+          <span class="stat-num" id="chCount">8</span>
+          <span class="stat-label">章节</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-num" id="epCount">10</span>
-          <span class="stat-label">أغنية</span>
+          <span class="stat-num" id="epCount">0</span>
+          <span class="stat-label">曲目</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
           <span class="stat-num">🎹</span>
-          <span class="stat-label">موسيقى</span>
+          <span class="stat-label">音乐</span>
         </div>
       </div>
       <div class="hero-actions">
         <a href="#chapters" class="btn btn-hero">
-          <span>🎧 استمع الآن</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <span>🎧 立即收听</span>
         </a>
         <a href="#" id="buyBtnHero" class="btn btn-outline-hero" style="display:none">
-          <span>🛒 اشتري الكتاب</span>
+          <span>🛒 购买书籍</span>
         </a>
       </div>
     </div>
   </div>
   <div class="hero-scroll">
-    <span>اسحب للأسفل</span>
+    <span>向下滚动</span>
     <div class="scroll-arrow">↓</div>
   </div>
 </section>
 
-<!-- Chapters Section -->
+<!-- Chapters -->
 <section class="chapters-section" id="chapters">
   <div class="container">
     <div class="section-header">
       <span class="section-tag">🎵</span>
-      <h2 class="section-title">جميع الأبواب</h2>
-      <p class="section-sub">اختر باب للاستماع</p>
+      <h2 class="section-title">所有章节</h2>
+      <p class="section-sub">选择一个章节开始收听</p>
     </div>
     <div class="chapters-grid" id="chaptersGrid">
-      <div class="skeleton-card" style="--delay:0.1s"></div>
-      <div class="skeleton-card" style="--delay:0.2s"></div>
-      <div class="skeleton-card" style="--delay:0.3s"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
     </div>
   </div>
 </section>
 
-<!-- About Section -->
+<!-- About -->
 <section class="about-section" id="about">
   <div class="container">
     <div class="about-grid">
       <div class="about-visual">
-        <img src="assets/book-cover.png" alt="الكتاب" class="about-img" onerror="this.parentElement.innerHTML='<div class=about-placeholder>📖</div>'">
+        <img src="assets/book-cover.png" alt="书籍" class="about-img" onerror="this.parentElement.innerHTML='<div class=about-placeholder>📖</div>'">
       </div>
       <div class="about-text">
-        <span class="section-tag">📖 عن الكتاب</span>
-        <h2 class="section-title">الاسطورة اب مان</h2>
-        <p>رحلة استثنائية عبر حياة وأعمال الأسطورة اب مان. الكتاب يضم 8 أبواب من الأغاني المميزة و2 قسم موسيقي، كلهم يروون قصة مختلفة من قصص النجاح والإبداع.</p>
+        <span class="section-tag">📖 关于本书</span>
+        <h2 class="section-title">传奇叶问</h2>
+        <p>一段跨越传奇人物叶问生平的非凡旅程。本书包含8个章节的精彩音乐和2个纯音乐篇章，每一个都诉说着不同的传奇故事。</p>
         <div class="about-features">
-          <div class="about-feat">
-            <span class="feat-icon">🎵</span>
-            <span>8 أبواب أغاني</span>
-          </div>
-          <div class="about-feat">
-            <span class="feat-icon">🎹</span>
-            <span>2 موسيقى</span>
-          </div>
-          <div class="about-feat">
-            <span class="feat-icon">📖</span>
-            <span>سيرة ذاتية</span>
-          </div>
-          <div class="about-feat">
-            <span class="feat-icon">🎧</span>
-            <span>جودة عالية</span>
-          </div>
+          <div class="about-feat"><span class="feat-icon">🎵</span><span>8个音乐章节</span></div>
+          <div class="about-feat"><span class="feat-icon">🎹</span><span>2段纯音乐</span></div>
+          <div class="about-feat"><span class="feat-icon">📖</span><span>人物传记</span></div>
+          <div class="about-feat"><span class="feat-icon">🎧</span><span>高品质音频</span></div>
         </div>
-        <a href="#" id="buyBtnAbout" class="btn btn-primary btn-lg" style="display:none">🛒 اشتري الكتاب الآن</a>
+        <a href="#" id="buyBtnAbout" class="btn btn-primary btn-lg" style="display:none">🛒 立即购买</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Contact Section -->
-<section class="contact-section" id="contact">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag">✉️</span>
-      <h2 class="section-title">تواصل معنا</h2>
-      <p class="section-sub">لأي استفسارات أو تعاون</p>
-    </div>
-    <div class="contact-card">
-      <form id="contactForm" onsubmit="return handleContact(event)">
-        <div class="form-row">
-          <div class="form-group">
-            <label>الاسم</label>
-            <input type="text" placeholder="اسمك" required>
-          </div>
-          <div class="form-group">
-            <label>البريد</label>
-            <input type="email" placeholder="بريدك الإلكتروني" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>الرسالة</label>
-          <textarea rows="4" placeholder="اكتب رسالتك هنا..." required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg">إرسال الرسالة ✉️</button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- CTA Section (Buy Book) -->
+<!-- Buy CTA -->
 <section class="cta-section" id="buySection" style="display:none">
   <div class="container">
     <div class="cta-card">
       <div class="cta-content">
-        <h2>📖 اشتري الكتاب</h2>
-        <p>احصل على نسختك من كتاب الاسطورة اب مان</p>
-        <a href="#" id="buyBtnCTA" class="btn btn-hero">🛒 شراء الكتاب الآن →</a>
+        <h2>📖 购买本书</h2>
+        <p>获取您的传奇叶问传记</p>
+        <a href="#" id="buyBtnCTA" class="btn btn-hero">🛒 立即购买 →</a>
       </div>
     </div>
   </div>
@@ -196,10 +152,10 @@
   <div class="container">
     <div class="footer-inner">
       <div class="footer-brand">
-        <span class="logo-icon">🎵</span>
-        <span class="logo-text">الاسطورة اب مان</span>
+        <span class="logo-icon">🥋</span>
+        <span>传奇叶问</span>
       </div>
-      <p class="footer-copy">© 2026 جميع الحقوق محفوظة</p>
+      <p class="footer-copy">© 2026 版权所有</p>
     </div>
   </div>
 </footer>
@@ -210,99 +166,23 @@
   <div class="np-info">
     <div class="np-title" id="npTitle"></div>
     <div class="np-sub" id="npSub"></div>
-    <div class="np-progress-mini">
+    <div class="np-progress-mini" id="npProgress">
       <div class="np-fill" id="npFill"></div>
     </div>
   </div>
   <div class="np-controls">
-    <button onclick="prevSong()" class="np-btn" aria-label="السابق">⏮</button>
+    <button onclick="prevSong()" class="np-btn" aria-label="上一首">⏮</button>
     <button onclick="togglePlay()" id="playBtn" class="np-btn np-play">▶</button>
-    <button onclick="nextSong()" class="np-btn" aria-label="التالي">⏭</button>
+    <button onclick="nextSong()" class="np-btn" aria-label="下一首">⏭</button>
     <button onclick="closePlayer()" class="np-btn np-close">✕</button>
   </div>
 </div>
 
+<!-- Theme Player (auto-play on interaction) -->
+<audio id="themePlayer" loop preload="auto"></audio>
 <audio id="player"></audio>
-
-<!-- Theme Player (Hidden) -->
-<audio id="themePlayer" preload="metadata"></audio>
 
 <script src="config.js"></script>
 <script src="app.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Preloader
-  setTimeout(() => {
-    document.getElementById('preloader').classList.add('fade-out');
-    setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
-  }, 1200);
-
-  // Floating particles
-  createParticles();
-
-  // Update stats
-  setTimeout(() => {
-    const ch = DB.getChapters();
-    const totalSongs = ch.reduce((s, c) => s + (c.songs?.length || 0), 0);
-    document.getElementById('chCount').textContent = ch.length;
-    document.getElementById('epCount').textContent = totalSongs;
-
-    // Buy link
-    const buyUrl = localStorage.getItem('ab_buyurl');
-    if (buyUrl) {
-      ['buyBtnHero', 'buyBtnAbout', 'buyBtnCTA'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) { el.href = buyUrl; el.style.display = ''; }
-      });
-      document.getElementById('buySection').style.display = 'block';
-    }
-  }, 600);
-
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // Play theme on hero click
-  const themeAudio = document.getElementById('themePlayer');
-  themeAudio.src = 'audio/theme.mp3';
-  themeAudio.volume = 0.3;
-});
-
-function createParticles() {
-  const container = document.getElementById('particles');
-  for (let i = 0; i < 20; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.cssText = `
-      left: ${Math.random() * 100}%;
-      top: ${Math.random() * 100}%;
-      width: ${4 + Math.random() * 8}px;
-      height: ${4 + Math.random() * 8}px;
-      animation-delay: ${Math.random() * 5}s;
-      animation-duration: ${8 + Math.random() * 12}s;
-      opacity: ${0.1 + Math.random() * 0.3};
-    `;
-    container.appendChild(p);
-  }
-}
-
-function handleContact(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('button[type="submit"]');
-  btn.textContent = '✅ تم الإرسال!';
-  btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = 'إرسال الرسالة ✉️';
-    btn.disabled = false;
-    e.target.reset();
-  }, 3000);
-  return false;
-}
-</script>
 </body>
 </html>
