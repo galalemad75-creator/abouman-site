@@ -8,33 +8,66 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
   .admin-wrap { max-width: 900px; margin: 0 auto; padding: calc(var(--header-height, 70px) + 24px) 20px 60px; }
-  .login-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; max-width: 400px; margin: 80px auto; text-align: center; box-shadow: var(--shadow-lg); }
+
+  /* Login */
+  .login-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 40px;
+    max-width: 420px; margin: 80px auto; text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
   .login-card h2 { font-size: 1.4rem; margin-bottom: 8px; }
   .login-card p { color: var(--text-secondary); margin-bottom: 24px; font-size: 0.9rem; }
   .login-card .form-group { margin-bottom: 16px; text-align: left; }
   .login-card .form-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; }
-  .login-card .form-group input { width: 100%; padding: 12px 16px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem; }
+  .login-card .form-group input {
+    width: 100%; padding: 12px 16px;
+    background: var(--bg-primary); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text-primary);
+    font-family: inherit; font-size: 0.95rem;
+  }
   .login-card .form-group input:focus { outline: none; border-color: var(--accent); }
-  .login-card .login-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-full); font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; }
-  .login-card .login-btn:hover { background: var(--accent-hover); }
+  .login-card .login-btn {
+    width: 100%; padding: 14px;
+    background: var(--accent); color: #000;
+    border: none; border-radius: var(--radius-full);
+    font-family: inherit; font-size: 1rem; font-weight: 700;
+    cursor: pointer; margin-top: 8px;
+    transition: var(--transition);
+  }
+  .login-card .login-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
   .login-card .login-btn:disabled { opacity: 0.6; }
   .login-error { color: #e74c3c; font-weight: 600; font-size: 0.85rem; margin-top: 12px; min-height: 20px; }
   .login-back { display: block; margin-top: 20px; color: var(--text-muted); font-size: 0.85rem; text-decoration: none; cursor: pointer; }
+
+  /* Dashboard */
   .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
   .dash-header h1 { font-size: 1.6rem; font-weight: 800; }
   .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
-  .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; }
+  .stat-box {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 16px; text-align: center;
+  }
   .stat-box .num { font-size: 1.6rem; font-weight: 800; color: var(--accent); display: block; }
   .stat-box .lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+
+  /* Tabs */
   .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid var(--border); }
-  .tab { padding: 10px 20px; font-weight: 700; font-size: 0.9rem; color: var(--text-secondary); border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: 0.2s; }
+  .tab {
+    padding: 10px 20px; font-weight: 700; font-size: 0.9rem;
+    color: var(--text-secondary); border: none; background: none;
+    cursor: pointer; border-bottom: 3px solid transparent;
+    margin-bottom: -2px; transition: var(--transition);
+  }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .tab:hover { color: var(--accent); }
   .panel { display: none; } .panel.active { display: block; }
+
+  /* Chapters list */
   .ch-list { display: flex; flex-direction: column; gap: 10px; }
   .ch-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; }
   .ch-head { display: flex; align-items: center; gap: 12px; }
@@ -44,450 +77,408 @@
   .ch-head .count { font-size: 0.8rem; color: var(--text-muted); }
   .ch-head .actions { display: flex; gap: 6px; }
   .song-list { margin-top: 10px; padding-left: 16px; }
-  .song-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 6px; }
+  .song-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); margin-bottom: 6px;
+  }
   .song-row .title { flex: 1; font-weight: 600; font-size: 0.85rem; }
   .song-row .acts { display: flex; gap: 4px; }
-  .form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; }
-  .form-card h3 { margin-bottom: 16px; font-size: 1rem; }
-  .form-row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .form-row .form-group { flex: 1; min-width: 180px; }
-  .form-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; }
-  .form-group input, .form-group select { width: 100%; padding: 10px 14px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
-  .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
-  .file-wrap { position: relative; }
-  .file-wrap input[type="file"] { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
-  .file-label { display: block; padding: 12px; background: var(--bg-primary); border: 2px dashed var(--border); border-radius: var(--radius-sm); text-align: center; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.85rem; }
-  .file-label:hover { border-color: var(--accent); color: var(--accent); }
-  .upload-bar { display: none; margin-top: 10px; padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-sm); font-size: 0.85rem; }
-  .upload-bar .bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 6px; overflow: hidden; }
-  .upload-bar .fill { height: 100%; background: var(--accent); border-radius: 3px; width: 0%; transition: 0.3s; }
-  .btn-s { padding: 6px 14px; font-size: 0.78rem; border-radius: var(--radius-full); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; border: none; cursor: pointer; transition: 0.2s; font-family: inherit; }
-  .btn-s.red { background: #e74c3c; color: #fff; } .btn-s.red:hover { background: #c0392b; }
-  .btn-s.green { background: #27ae60; color: #fff; } .btn-s.green:hover { background: #219a52; }
-  .btn-s.orange { background: #f39c12; color: #fff; } .btn-s.orange:hover { background: #d68910; }
-  .btn-s.ghost { background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border); }
-  .btn-s.ghost:hover { border-color: var(--accent); color: var(--accent); }
-  .toast { position: fixed; bottom: 20px; right: 20px; z-index: 10000; padding: 14px 22px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.85rem; box-shadow: var(--shadow-lg); transform: translateY(100px); opacity: 0; transition: 0.4s; }
-  .toast.show { transform: translateY(0); opacity: 1; }
-  .toast.success { background: #27ae60; color: #fff; }
-  .toast.error { background: #e74c3c; color: #fff; }
-  .toast.info { background: var(--accent); color: #fff; }
-  @media (max-width: 600px) { .stats-row { grid-template-columns: 1fr; } .form-row { flex-direction: column; } .tabs { overflow-x: auto; } }
+
+  /* Forms */
+  .form-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px;
+  }
+  .form-card h3 { margin-bottom: 16px; font-size: 1.1rem; }
+  .form-card .form-group { margin-bottom: 14px; }
+  .form-card .form-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-secondary); }
+  .form-card .form-group input, .form-card .form-group select {
+    width: 100%; padding: 10px 14px;
+    background: var(--bg-primary); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text-primary);
+    font-size: 0.9rem;
+  }
+  .form-card .form-group input:focus { outline: none; border-color: var(--accent); }
+
+  .btn-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-sm); border: 1px solid var(--border);
+    background: var(--bg-primary); color: var(--text-primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; cursor: pointer;
+    transition: var(--transition);
+  }
+  .btn-icon:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-icon.danger:hover { border-color: #e74c3c; color: #e74c3c; }
+
+  /* Upload progress */
+  .upload-progress { margin-top: 8px; }
+  .upload-bar { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .upload-fill { height: 100%; background: var(--accent); border-radius: 4px; width: 0; transition: width 0.3s; }
+  .upload-text { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+  /* Book link section */
+  .book-link-card {
+    background: linear-gradient(135deg, var(--accent-soft), rgba(212,168,83,0.05));
+    border: 1px solid rgba(212,168,83,0.3);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--bg-card); border: 1px solid var(--accent);
+    color: var(--text-primary); padding: 12px 24px;
+    border-radius: var(--radius-full);
+    font-weight: 700; font-size: 0.9rem;
+    z-index: 9999; transition: var(--transition);
+    box-shadow: var(--shadow-lg);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
-<header class="header" id="header">
+
+<header class="header scrolled" id="header">
   <div class="container nav-inner">
-    <a href="index.html" class="logo"><span class="logo-icon">📖</span><span class="logo-text">اب مان</span></a>
+    <a href="index.html" class="logo">
+      <span class="logo-icon">🎵</span>
+      <span class="logo-text">Admin Panel</span>
+    </a>
     <div class="nav-actions">
-      <button class="btn btn-sm" style="background:var(--accent);color:#fff;font-size:0.8rem" onclick="if(DB.isLoggedIn()){DB.logout();location.reload()}else{location.href='index.html'}">
-        <span id="navAction">🏠 Home</span>
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
       </button>
+      <a href="index.html" class="btn btn-primary btn-sm">🏠 الموقع</a>
     </div>
   </div>
 </header>
 
-<!-- LOGIN -->
-<div id="loginSection">
-  <div class="login-card">
-    <div style="font-size:2.5rem;margin-bottom:12px">🔐</div>
-    <h2>Admin Login</h2>
-    <p>Sign in to manage courses and upload episodes</p>
-    <form onsubmit="doLogin(event)">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="loginEmail" required placeholder="Enter your email">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="loginPass" required placeholder="Enter password">
-      </div>
-      <button type="submit" class="login-btn" id="loginBtn">🔓 Sign In</button>
-      <div class="login-error" id="loginError"></div>
-    </form>
-    <a href="#" class="login-back" onclick="showForgot(event)" style="color:var(--accent)">🔑 Forgot Password?</a>
-    <a href="index.html" class="login-back">← Back to Home</a>
-  </div>
-</div>
-
-<!-- FORGOT PASSWORD -->
-<div id="forgotSection" style="display:none">
-  <div class="login-card">
-    <div style="font-size:2.5rem;margin-bottom:12px">🔑</div>
-    <h2>Reset Password</h2>
-    <p>Set a new email and password for your admin account</p>
-    <form onsubmit="doResetPassword(event)">
-      <div class="form-group">
-        <label>Admin Email</label>
-        <input type="email" id="resetEmail" required placeholder="Enter admin email">
-      </div>
-      <div class="form-group">
-        <label>New Password</label>
-        <input type="password" id="resetPass" required placeholder="Enter new password" minlength="6">
-      </div>
-      <div class="form-group">
-        <label>Confirm Password</label>
-        <input type="password" id="resetPassConfirm" required placeholder="Confirm new password" minlength="6">
-      </div>
-      <button type="submit" class="login-btn" id="resetBtn">🔄 Reset Password</button>
-      <div class="login-error" id="resetError"></div>
-    </form>
-    <a href="#" class="login-back" onclick="hideForgot(event)">← Back to Login</a>
-  </div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashSection" style="display:none">
 <div class="admin-wrap">
-  <div class="dash-header">
-    <h1>📊 Dashboard</h1>
-    <button class="btn-s ghost" onclick="DB.logout();location.reload()">🚪 Logout</button>
-  </div>
-
-  <div class="stats-row">
-    <div class="stat-box"><span class="num" id="sChapters">0</span><span class="lbl">الأبواب</span></div>
-    <div class="stat-box"><span class="num" id="sSongs">0</span><span class="lbl">الأغاني</span></div>
-    <div class="stat-box"><span class="num" id="sAudio">0</span><span class="lbl">ملفات</span></div>
-  </div>
-
-  <div class="tabs">
-    <button class="tab active" data-tab="chapters">📚 الأبواب</button>
-    <button class="tab" data-tab="upload">🎵 Upload</button>
-    <button class="tab" data-tab="settings">⚙️ Settings</button>
-  </div>
-
-  <div class="panel active" id="p-chapters">
-    <div class="form-card">
-      <h3>➕ Add Course</h3>
-      <form onsubmit="addChapter(event)">
-        <div class="form-row">
-          <div class="form-group"><label>Name *</label><input type="text" id="chName" required placeholder="Course name"></div>
-          <div class="form-group"><label>Icon *</label><input type="text" id="chIcon" required placeholder="📚" maxlength="4"></div>
-        </div>
-        <button type="submit" class="btn-s green" style="margin-top:10px">➕ Add</button>
-      </form>
+  <!-- Login -->
+  <div id="loginView" class="login-card">
+    <div style="font-size:3rem;margin-bottom:16px;">🔐</div>
+    <h2>تسجيل الدخول</h2>
+    <p>لوحة تحكم موقع اب مان</p>
+    <div class="form-group">
+      <label>البريد الإلكتروني</label>
+      <input type="email" id="loginEmail" placeholder="admin@abouman.com">
     </div>
-    <div class="ch-list" id="chList"><p style="text-align:center;color:var(--text-muted);padding:30px">Loading...</p></div>
+    <div class="form-group">
+      <label>كلمة المرور</label>
+      <input type="password" id="loginPass" placeholder="••••••••">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">تسجيل الدخول →</button>
+    <div class="login-error" id="loginError"></div>
+    <a class="login-back" href="index.html">← العودة للموقع</a>
   </div>
 
-  <div class="panel" id="p-upload">
-    <div class="form-card">
-      <h3>🎵 Upload Episode</h3>
-      <form onsubmit="uploadSong(event)">
-        <div class="form-row">
-          <div class="form-group"><label>Course *</label><select id="songChapter" required><option value="">Select...</option></select></div>
-          <div class="form-group"><label>Title *</label><input type="text" id="songTitle" required placeholder="Episode title"></div>
-        </div>
-        <div class="form-row" style="margin-top:12px">
-          <div class="form-group">
-            <label>🎵 Audio File *</label>
-            <div class="file-wrap">
-              <input type="file" id="songFile" accept="audio/*" required onchange="document.getElementById('fileLbl').textContent='✅ '+this.files[0].name">
-              <div class="file-label" id="fileLbl">📎 Click to select audio file</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>🖼️ Cover Image</label>
-            <div class="file-wrap">
-              <input type="file" id="songImage" accept="image/*" onchange="handleImgPreview(this)">
-              <div class="file-label" id="imgLbl">🖼️ Click to select cover image</div>
-            </div>
-            <div id="imgPreview" style="display:none;margin-top:8px"><img id="imgThumb" style="max-width:100px;border-radius:8px"></div>
-          </div>
-        </div>
-        <div class="upload-bar" id="upBar">
-          <span id="upStatus">Uploading...</span>
-          <div class="bar"><div class="fill" id="upFill"></div></div>
-        </div>
-        <button type="submit" class="btn-s green" style="margin-top:12px" id="upBtn">📤 Upload</button>
-      </form>
+  <!-- Dashboard -->
+  <div id="dashView" style="display:none;">
+    <div class="dash-header">
+      <h1>📊 لوحة التحكم</h1>
+      <button class="btn btn-primary btn-sm" onclick="DB.logout(); location.reload()">🚪 تسجيل الخروج</button>
     </div>
-  </div>
 
-  <div class="panel" id="p-settings">
-    <div class="form-card">
-      <h3>📋 Supabase SQL Setup</h3>
-      <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:12px">Run this SQL in your Supabase SQL Editor (once per project):</p>
-      <pre style="background:var(--bg-primary);padding:16px;border-radius:var(--radius-sm);overflow-x:auto;font-size:0.78rem;border:1px solid var(--border);line-height:1.6">CREATE TABLE IF NOT EXISTS public.chapters (
-  id INTEGER PRIMARY KEY,
-  name TEXT NOT NULL,
-  icon TEXT DEFAULT '📚',
-  songs JSONB DEFAULT '[]'::jsonb,
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-CREATE TABLE IF NOT EXISTS public.settings (
-  key TEXT PRIMARY KEY,
-  value JSONB NOT NULL,
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-ALTER TABLE public.chapters ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow all" ON chapters FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all" ON settings FOR ALL USING (true) WITH CHECK (true);</pre>
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="num" id="statCh">0</span>
+        <span class="lbl">أبواب</span>
+      </div>
+      <div class="stat-box">
+        <span class="num" id="statSongs">0</span>
+        <span class="lbl">أغاني</span>
+      </div>
+      <div class="stat-box">
+        <span class="num" id="statMusic">0</span>
+        <span class="lbl">موسيقى</span>
+      </div>
     </div>
-    <div class="form-card">
-      <h3>🗑️ Reset All Data</h3>
-      <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:12px">Delete everything and go back to defaults.</p>
-      <button class="btn-s red" onclick="resetData()">⚠️ Reset</button>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('chapters')">📚 الأبواب والأغاني</button>
+      <button class="tab" onclick="switchTab('add')">➕ إضافة</button>
+      <button class="tab" onclick="switchTab('settings')">⚙️ الإعدادات</button>
+    </div>
+
+    <!-- Chapters Tab -->
+    <div class="panel active" id="panel-chapters">
+      <div class="ch-list" id="chList"></div>
+    </div>
+
+    <!-- Add Tab -->
+    <div class="panel" id="panel-add">
+      <div class="form-card">
+        <h3>➕ إضافة باب جديد</h3>
+        <div class="form-group">
+          <label>اسم الباب</label>
+          <input type="text" id="newChName" placeholder="مثال: الباب الأول — الطفولة">
+        </div>
+        <div class="form-group">
+          <label>الأيقونة</label>
+          <input type="text" id="newChIcon" placeholder="🎵" value="🎵">
+        </div>
+        <button class="btn btn-primary" onclick="addChapter()">إضافة الباب</button>
+      </div>
+
+      <div class="form-card">
+        <h3>🎵 إضافة أغنية</h3>
+        <div class="form-group">
+          <label>الباب</label>
+          <select id="songChapter"></select>
+        </div>
+        <div class="form-group">
+          <label>عنوان الأغنية</label>
+          <input type="text" id="newSongTitle" placeholder="اسم الأغنية">
+        </div>
+        <div class="form-group">
+          <label>ملف الصوت (MP3)</label>
+          <input type="file" id="newSongFile" accept="audio/*">
+        </div>
+        <div class="form-group">
+          <label>صورة (PNG/JPG) — اختياري</label>
+          <input type="file" id="newSongImg" accept="image/*">
+        </div>
+        <div class="upload-progress" id="uploadProgress" style="display:none">
+          <div class="upload-bar"><div class="upload-fill" id="uploadFill"></div></div>
+          <div class="upload-text" id="uploadText">جاري الرفع...</div>
+        </div>
+        <button class="btn btn-primary" id="addSongBtn" onclick="addSong()">إضافة الأغنية</button>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="panel" id="panel-settings">
+      <div class="form-card book-link-card">
+        <h3>🛒 رابط شراء الكتاب</h3>
+        <p style="color:var(--text-secondary);margin-bottom:16px;font-size:0.9rem;">
+          ضع رابط الكتاب على منصات البيع (Amazon, Google Play, إلخ) ليظهر زر "اشتري الكتاب" على الموقع
+        </p>
+        <div class="form-group">
+          <label>رابط الشراء</label>
+          <input type="url" id="buyUrl" placeholder="https://amazon.com/your-book">
+        </div>
+        <button class="btn btn-primary" onclick="saveBuyUrl()">💾 حفظ الرابط</button>
+        <div style="margin-top:12px;font-size:0.85rem;color:var(--text-muted);">
+          <span id="buyUrlStatus"></span>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>🔑 تغيير كلمة المرور</h3>
+        <div class="form-group">
+          <label>البريد الجديد</label>
+          <input type="email" id="newEmail" placeholder="new@email.com">
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور الجديدة</label>
+          <input type="password" id="newPass" placeholder="كلمة المرور الجديدة">
+        </div>
+        <button class="btn btn-primary" onclick="resetPass()">💾 تحديث</button>
+      </div>
     </div>
   </div>
 </div>
-</div>
 
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script src="config.js"></script>
 <script>
-let chapters = [];
+// Theme
+(function(){
+  const saved = localStorage.getItem('ab_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeToggle').onclick = () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('ab_theme', next);
+    document.querySelector('.theme-icon').textContent = next === 'dark' ? '🌙' : '☀️';
+  };
+  if (saved === 'light') document.querySelector('.theme-icon').textContent = '☀️';
+})();
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const saved = localStorage.getItem('ab_theme');
-  const dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-
-  if (localStorage.getItem('ab_admin')) showDashboard();
-
-  document.querySelectorAll('.tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('p-' + btn.dataset.tab).classList.add('active');
-    });
-  });
-});
-
-function doLogin(e) {
-  e.preventDefault();
+// Login
+async function doLogin() {
+  await DB.init();
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPass').value.trim();
-  const errEl = document.getElementById('loginError');
-  const btn = document.getElementById('loginBtn');
-  btn.disabled = true; btn.textContent = 'Checking...'; errEl.textContent = '';
-
-  DB.init().then(() => {
-    if (DB.login(email, pass)) {
-      DB.setSession(email);
-      showDashboard();
-    } else {
-      errEl.textContent = '❌ Invalid email or password';
-      btn.disabled = false; btn.textContent = '🔓 Sign In';
-    }
-  }).catch(() => {
-    errEl.textContent = '❌ Connection error. Try again.';
-    btn.disabled = false; btn.textContent = '🔓 Sign In';
-  });
-}
-
-function showForgot(e) {
-  e.preventDefault();
-  document.getElementById('loginSection').style.display = 'none';
-  document.getElementById('forgotSection').style.display = 'block';
-}
-
-function hideForgot(e) {
-  e.preventDefault();
-  document.getElementById('forgotSection').style.display = 'none';
-  document.getElementById('loginSection').style.display = 'block';
-}
-
-async function doResetPassword(e) {
-  e.preventDefault();
-  const email = document.getElementById('resetEmail').value.trim();
-  const pass = document.getElementById('resetPass').value.trim();
-  const confirm = document.getElementById('resetPassConfirm').value.trim();
-  const errEl = document.getElementById('resetError');
-  const btn = document.getElementById('resetBtn');
-
-  if (pass !== confirm) { errEl.textContent = '❌ Passwords do not match'; return; }
-  if (pass.length < 6) { errEl.textContent = '❌ Password must be at least 6 characters'; return; }
-
-  btn.disabled = true; btn.textContent = 'Resetting...'; errEl.textContent = '';
-
-  try {
-    await DB.init();
-    const result = await DB.resetPassword(pass, email);
-    if (result.ok) {
-      toast('✅ Password reset! You can now login.', 'success');
-      hideForgot(e);
-      document.getElementById('loginEmail').value = email;
-      document.getElementById('loginPass').value = pass;
-    } else {
-      errEl.textContent = '❌ ' + (result.error || 'Reset failed');
-    }
-  } catch (err) {
-    errEl.textContent = '❌ ' + err.message;
+  if (DB.login(email, pass)) {
+    DB.setSession(email);
+    showDashboard();
+  } else {
+    document.getElementById('loginError').textContent = '❌ البريد أو كلمة المرور غير صحيحة';
   }
-  btn.disabled = false; btn.textContent = '🔄 Reset Password';
 }
 
-async function showDashboard() {
-  document.getElementById('loginSection').style.display = 'none';
-  document.getElementById('dashSection').style.display = 'block';
-  document.getElementById('navAction').textContent = '🚪 Logout';
+// Check session
+document.addEventListener('DOMContentLoaded', async () => {
+  await DB.init();
+  if (DB.isLoggedIn()) {
+    showDashboard();
+  }
+});
 
-  toast('⏳ Loading & syncing...', 'info');
-  try { await DB.init(); } catch(e) { console.warn('DB init:', e); }
-  chapters = DB.getChapters();
-  renderStats(); renderChapters(); populateSelect();
-  toast('✅ Data loaded!', 'success');
+function showDashboard() {
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('dashView').style.display = '';
+  refreshData();
 }
 
-function renderStats() {
-  const songs = chapters.reduce((s, c) => s + (c.songs?.length || 0), 0);
-  document.getElementById('sChapters').textContent = chapters.length;
-  document.getElementById('sSongs').textContent = songs;
-  document.getElementById('sAudio').textContent = songs;
+function refreshData() {
+  const chapters = DB.getChapters();
+  const totalSongs = chapters.reduce((s, c) => s + (c.songs?.length || 0), 0);
+  document.getElementById('statCh').textContent = chapters.length;
+  document.getElementById('statSongs').textContent = totalSongs;
+  document.getElementById('statMusic').textContent = chapters.filter(c => c.id >= 9).reduce((s, c) => s + (c.songs?.length || 0), 0);
+
+  renderChapters();
+  populateChapterSelect();
+
+  // Load buy URL
+  const buyUrl = localStorage.getItem('ab_buyurl') || '';
+  document.getElementById('buyUrl').value = buyUrl;
+  document.getElementById('buyUrlStatus').textContent = buyUrl ? '✅ الرابط محفوظ' : '❌ لا يوجد رابط';
 }
 
 function renderChapters() {
-  const el = document.getElementById('chList');
-  if (!chapters.length) { el.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px">No courses yet. Add one above! 👆</p>'; return; }
-  el.innerHTML = chapters.map(c => `
+  const chapters = DB.getChapters();
+  const list = document.getElementById('chList');
+  list.innerHTML = chapters.map(c => `
     <div class="ch-item">
       <div class="ch-head">
         <span class="icon">${c.icon}</span>
         <div class="info">
           <div class="name">${c.name}</div>
-          <div class="count">${(c.songs||[]).length} episode${(c.songs||[]).length!==1?'s':''}</div>
-          ${c.songs?.length ? `<div class="song-list">${c.songs.map(s=>`
-            <div class="song-row">
-              <span style="font-size:1.2rem">🎙️</span>
-              <span class="title">${s.title}</span>
-              <div class="acts">
-                ${s.audio ? `<button class="btn-s ghost" onclick="new Audio('${s.audio}').play().catch(()=>toast('Cannot play','error'))">▶</button>` : ''}
-                <button class="btn-s red" onclick="delSong(${c.id},${s.id})">🗑</button>
-              </div>
-            </div>`).join('')}</div>` : ''}
+          <div class="count">${(c.songs || []).length} أغنية</div>
         </div>
         <div class="actions">
-          <button class="btn-s orange" onclick="editCh(${c.id})">✏️</button>
-          <button class="btn-s red" onclick="delCh(${c.id})">🗑️</button>
+          <button class="btn-icon danger" onclick="deleteChapter(${c.id})" title="حذف">🗑️</button>
         </div>
       </div>
+      ${(c.songs || []).map(s => `
+        <div class="song-list">
+          <div class="song-row">
+            <span>🎵</span>
+            <span class="title">${s.title}</span>
+            <div class="acts">
+              <button class="btn-icon danger" onclick="deleteSong(${c.id}, ${s.id})" title="حذف">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
     </div>
   `).join('');
 }
 
-function populateSelect() {
+function populateChapterSelect() {
+  const chapters = DB.getChapters();
   const sel = document.getElementById('songChapter');
-  sel.innerHTML = '<option value="">Select course...</option>';
-  chapters.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.icon} ${c.name}</option>`);
+  sel.innerHTML = chapters.map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
 }
 
-async function addChapter(e) {
-  e.preventDefault();
-  const name = document.getElementById('chName').value.trim();
-  const icon = document.getElementById('chIcon').value.trim();
-  if (!name || !icon) return;
-  await DB.addChapter(name, icon);
-  document.getElementById('chName').value = '';
-  document.getElementById('chIcon').value = '';
-  toast('Course added!', 'success');
-  chapters = DB.getChapters(); renderStats(); renderChapters(); populateSelect();
+// Tabs
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
 }
 
-async function editCh(id) {
-  const ch = chapters.find(c => c.id === id);
-  if (!ch) return;
-  const name = prompt('Name:', ch.name); if (!name) return;
-  const icon = prompt('Icon:', ch.icon); if (!icon) return;
-  await DB.updateChapter(id, { name, icon });
-  toast('Updated!', 'success');
-  chapters = DB.getChapters(); renderStats(); renderChapters(); populateSelect();
+// Add chapter
+async function addChapter() {
+  const name = document.getElementById('newChName').value.trim();
+  const icon = document.getElementById('newChIcon').value.trim() || '🎵';
+  if (!name) return showToast('❌ ادخل اسم الباب');
+  DB.addChapter(name, icon);
+  document.getElementById('newChName').value = '';
+  showToast('✅ تم إضافة الباب');
+  refreshData();
 }
 
-async function delCh(id) {
-  if (!confirm('Delete this course and all its episodes?')) return;
-  await DB.deleteChapter(id);
-  toast('Deleted!', 'info');
-  chapters = DB.getChapters(); renderStats(); renderChapters(); populateSelect();
-}
-
-async function uploadSong(e) {
-  e.preventDefault();
+// Add song
+async function addSong() {
   const chId = parseInt(document.getElementById('songChapter').value);
-  const title = document.getElementById('songTitle').value.trim();
-  const file = document.getElementById('songFile').files[0];
-  const imgFile = document.getElementById('songImage').files[0];
-  if (!chId || !title || !file) { toast('Fill all fields!', 'error'); return; }
+  const title = document.getElementById('newSongTitle').value.trim();
+  const fileInput = document.getElementById('newSongFile');
+  const imgInput = document.getElementById('newSongImg');
 
-  const btn = document.getElementById('upBtn');
-  const bar = document.getElementById('upBar');
-  const fill = document.getElementById('upFill');
-  const status = document.getElementById('upStatus');
+  if (!title) return showToast('❌ ادخل عنوان الأغنية');
+  if (!fileInput.files[0]) return showToast('❌ اختر ملف صوتي');
 
-  btn.disabled = true; bar.style.display = 'block';
-  fill.style.width = '0%'; status.textContent = 'Uploading audio...';
+  const btn = document.getElementById('addSongBtn');
+  btn.disabled = true;
+  const prog = document.getElementById('uploadProgress');
+  prog.style.display = '';
 
   try {
-    const result = await DB.uploadFile(file, 'audio', pct => {
-      fill.style.width = pct + '%';
-      status.textContent = `Uploading audio... ${pct}%`;
+    // Upload audio
+    document.getElementById('uploadText').textContent = 'جاري رفع الصوت...';
+    document.getElementById('uploadFill').style.width = '20%';
+    const audio = await DB.uploadFile(fileInput.files[0], 'audio', (p) => {
+      document.getElementById('uploadFill').style.width = p + '%';
     });
 
-    let imageUrl = '';
-    if (imgFile) {
-      fill.style.width = '0%';
-      status.textContent = 'Uploading image...';
-      const imgResult = await DB.uploadFile(imgFile, 'images', pct => {
-        fill.style.width = pct + '%';
-        status.textContent = `Uploading image... ${pct}%`;
-      });
-      imageUrl = imgResult.url;
+    // Upload image if provided
+    let imgUrl = '';
+    if (imgInput.files[0]) {
+      document.getElementById('uploadText').textContent = 'جاري رفع الصورة...';
+      const img = await DB.uploadFile(imgInput.files[0], 'assets');
+      imgUrl = img.url;
     }
 
-    fill.style.width = '100%'; status.textContent = 'Saving...';
-    await DB.addSong(chId, title, result.url, result.path, imageUrl);
-    status.textContent = '✅ Done!';
-    toast('Episode uploaded!', 'success');
-
-    document.getElementById('songTitle').value = '';
-    document.getElementById('songFile').value = '';
-    document.getElementById('songImage').value = '';
-    document.getElementById('fileLbl').textContent = '📎 Click to select audio file';
-    document.getElementById('imgLbl').textContent = '🖼️ Click to select cover image';
-    document.getElementById('imgPreview').style.display = 'none';
-
-    chapters = DB.getChapters(); renderStats(); renderChapters(); populateSelect();
-    setTimeout(() => { bar.style.display = 'none'; }, 2000);
-  } catch(err) {
-    status.textContent = '❌ ' + err.message;
-    toast('Upload failed: ' + err.message, 'error');
+    DB.addSong(chId, title, audio.url, audio.path, imgUrl);
+    showToast('✅ تم إضافة الأغنية');
+    fileInput.value = '';
+    imgInput.value = '';
+    document.getElementById('newSongTitle').value = '';
+    refreshData();
+  } catch (e) {
+    showToast('❌ خطأ: ' + e.message);
   }
   btn.disabled = false;
+  prog.style.display = 'none';
 }
 
-function handleImgPreview(input) {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      document.getElementById('imgThumb').src = e.target.result;
-      document.getElementById('imgPreview').style.display = 'block';
-      document.getElementById('imgLbl').textContent = '✅ ' + input.files[0].name;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
+// Delete
+function deleteChapter(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا الباب؟')) return;
+  DB.deleteChapter(id);
+  showToast('✅ تم الحذف');
+  refreshData();
+}
+function deleteSong(chId, sId) {
+  if (!confirm('هل أنت متأكد من حذف هذه الأغنية؟')) return;
+  DB.deleteSong(chId, sId);
+  showToast('✅ تم الحذف');
+  refreshData();
 }
 
-async function delSong(chId, sId) {
-  if (!confirm('Delete this episode?')) return;
-  await DB.deleteSong(chId, sId);
-  toast('Deleted!', 'info');
-  chapters = DB.getChapters(); renderStats(); renderChapters();
+// Book buy URL
+async function saveBuyUrl() {
+  const url = document.getElementById('buyUrl').value.trim();
+  localStorage.setItem('ab_buyurl', url);
+  document.getElementById('buyUrlStatus').textContent = url ? '✅ تم حفظ الرابط' : '❌ تم المسح';
+  showToast(url ? '✅ تم حفظ رابط الشراء' : '🗑️ تم مسح الرابط');
 }
 
-async function resetData() {
-  if (!confirm('⚠️ Delete ALL data?')) return;
-  if (!confirm('Last chance!')) return;
-  localStorage.removeItem('ab_cache');
-  location.reload();
+// Reset password
+async function resetPass() {
+  const email = document.getElementById('newEmail').value.trim();
+  const pass = document.getElementById('newPass').value.trim();
+  if (!pass) return showToast('❌ ادخل كلمة المرور');
+  await DB.resetPassword(pass, email);
+  showToast('✅ تم تحديث بيانات الدخول');
+  document.getElementById('newEmail').value = '';
+  document.getElementById('newPass').value = '';
 }
 
-function toast(msg, type='info') {
+// Toast
+function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast ' + type;
-  setTimeout(() => t.classList.add('show'), 10);
+  t.textContent = msg;
+  t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 </script>
