@@ -1,22 +1,43 @@
 /* ============================================
-   The Legend of Abou Man — App Logic
+   The Legend of Ip Man — Main Application
    ============================================ */
 
 const player = document.getElementById('player');
+const themePlayer = document.getElementById('themePlayer');
 let currentChapter = null;
 let currentSong = -1;
 let chapters = [];
+let themeStarted = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNav();
+  initParticles();
   initScrollAnimations();
   initChapters();
+  initThemeSong();
 });
 
-/* ---- Theme ---- */
+/* ---- Theme Song (auto-play on first interaction) ---- */
+function initThemeSong() {
+  themePlayer.src = 'audio/theme.mp3';
+  themePlayer.volume = 0.3;
+  themePlayer.loop = true;
+
+  // Try to play after user interaction
+  const startTheme = () => {
+    if (!themeStarted) {
+      themePlayer.play().then(() => { themeStarted = true; }).catch(() => {});
+    }
+  };
+  document.addEventListener('click', startTheme, { once: true });
+  document.addEventListener('touchstart', startTheme, { once: true });
+  document.addEventListener('scroll', startTheme, { once: true });
+}
+
+/* ---- Theme (Dark/Light) ---- */
 function initTheme() {
-  const saved = localStorage.getItem('ab_theme');
+  const saved = localStorage.getItem('ipman_theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const theme = saved || (prefersDark ? 'dark' : 'light');
   document.documentElement.setAttribute('data-theme', theme);
@@ -27,7 +48,7 @@ function initTheme() {
     toggle.addEventListener('click', () => {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('ab_theme', next);
+      localStorage.setItem('ipman_theme', next);
       updateThemeIcon(next);
     });
   }
@@ -36,6 +57,26 @@ function initTheme() {
 function updateThemeIcon(theme) {
   const icon = document.querySelector('.theme-icon');
   if (icon) icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+}
+
+/* ---- Particles ---- */
+function initParticles() {
+  const container = document.getElementById('particles');
+  if (!container) return;
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 3 + Math.random() * 6;
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      top: ${Math.random() * 100}%;
+      width: ${size}px; height: ${size}px;
+      animation-delay: ${Math.random() * 8}s;
+      animation-duration: ${10 + Math.random() * 15}s;
+      opacity: ${0.1 + Math.random() * 0.25};
+    `;
+    container.appendChild(p);
+  }
 }
 
 /* ---- Navigation ---- */
@@ -61,21 +102,26 @@ function initNav() {
     });
   }
 
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
   // Active nav on scroll
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(section => {
-      if (window.scrollY >= section.offsetTop - 200) {
-        current = section.id;
-      }
+      if (window.scrollY >= section.offsetTop - 200) current = section.id;
     });
     navLinks.forEach(link => {
       link.classList.remove('active');
-      if (link.getAttribute('href') === '#' + current) {
-        link.classList.add('active');
-      }
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
     });
   }, { passive: true });
 }
@@ -95,7 +141,6 @@ function initScrollAnimations() {
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
   document.querySelectorAll('.card, .animate-on-scroll').forEach(el => observer.observe(el));
 }
 
@@ -104,6 +149,22 @@ async function initChapters() {
   await DB.init();
   chapters = DB.getChapters();
   renderChapters();
+
+  // Update stats
+  const totalSongs = chapters.reduce((s, c) => s + (c.songs?.length || 0), 0);
+  document.getElementById('chCount').textContent = chapters.length;
+  document.getElementById('epCount').textContent = totalSongs;
+
+  // Show buy button if URL exists
+  const buyUrl = localStorage.getItem('ipman_buyurl');
+  if (buyUrl) {
+    ['buyBtnHero', 'buyBtnAbout', 'buyBtnCTA'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.href = buyUrl; el.style.display = ''; }
+    });
+    const buySection = document.getElementById('buySection');
+    if (buySection) buySection.style.display = 'block';
+  }
 }
 
 function renderChapters() {
@@ -120,12 +181,11 @@ function renderChapters() {
         ${imgHtml}
         <div class="num">${c.id}</div>
         <div class="name">${c.icon} ${c.name}</div>
-        <div class="count">${songCount} ${songCount === 1 ? 'track' : 'tracks'}</div>
+        <div class="count">${songCount} ${songCount === 1 ? '首曲目' : '首曲目'}</div>
       </div>
     `;
   }).join('');
 
-  // Re-observe new cards
   setTimeout(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -146,38 +206,32 @@ function openChapter(id) {
   currentChapter = chapters.find(c => c.id === id);
   if (!currentChapter) return;
 
+  // Pause theme song when opening a chapter
+  if (themeStarted && !themePlayer.paused) {
+    themePlayer.pause();
+  }
+
   // Hide main sections
-  ['hero', 'about', 'chapters', 'buySection', 'contact'].forEach(sId => {
+  ['hero', 'about', 'chapters', 'buySection'].forEach(sId => {
     const el = document.getElementById(sId);
     if (el) el.style.display = 'none';
   });
 
   // Show songs view
   let sv = document.getElementById('songsView');
-  if (!sv) {
-    createSongsView();
-    sv = document.getElementById('songsView');
-  }
+  if (!sv) { createSongsView(); sv = document.getElementById('songsView'); }
   sv.style.display = 'block';
 
-  const chImg = currentChapter.songs?.[0]?.image || '';
   document.getElementById('chapterTitle').textContent = `${currentChapter.icon} ${currentChapter.name}`;
 
   const sl = document.getElementById('songsList');
   if (!currentChapter.songs || !currentChapter.songs.length) {
-    sl.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">🎙️</div>
-        <h3 style="margin-bottom:8px;">لا توجد أغاني بعد</h3>
-        <p>سيتم إضافة الأغاني قريباً</p>
-      </div>`;
+    sl.innerHTML = `<div class="empty"><div class="empty-icon">🎙️</div><h3 style="margin-bottom:8px;">暂无曲目</h3><p>曲目即将上线</p></div>`;
   } else {
     sl.innerHTML = currentChapter.songs.map((s, i) => `
       <div class="song-card" id="sc-${i}" onclick="playSong(${i})">
         ${s.image ? `<img src="${s.image}" class="song-img" onerror="this.style.display='none'" loading="lazy">` : '<div class="song-img" style="background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎵</div>'}
-        <div class="song-info">
-          <div class="song-title">${s.title}</div>
-        </div>
+        <div class="song-info"><div class="song-title">${s.title}</div></div>
         <button class="song-play" onclick="event.stopPropagation(); playSong(${i})">▶</button>
       </div>
     `).join('');
@@ -190,7 +244,7 @@ function createSongsView() {
   sv.id = 'songsView';
   sv.className = 'songs-view';
   sv.innerHTML = `
-    <button class="back-btn" onclick="showHome()">← العودة للأبواب</button>
+    <button class="back-btn" onclick="showHome()">← 返回章节</button>
     <h2 id="chapterTitle" style="margin-bottom:24px;"></h2>
     <div id="songsList"></div>
   `;
@@ -198,19 +252,21 @@ function createSongsView() {
 }
 
 function showHome() {
-  ['hero', 'about', 'chapters', 'contact'].forEach(id => {
+  ['hero', 'about', 'chapters'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = '';
   });
-
-  // Show buy section if link exists
-  const buyUrl = localStorage.getItem('ab_buyurl');
+  const buyUrl = localStorage.getItem('ipman_buyurl');
   const buySection = document.getElementById('buySection');
   if (buySection && buyUrl) buySection.style.display = '';
-
   const sv = document.getElementById('songsView');
   if (sv) sv.style.display = 'none';
   currentChapter = null;
+
+  // Resume theme song
+  if (themeStarted) {
+    themePlayer.play().catch(() => {});
+  }
 }
 
 /* ---- Player ---- */
@@ -219,6 +275,9 @@ function playSong(i) {
   currentSong = i;
   const s = currentChapter.songs[i];
   if (!s.audio) return;
+
+  // Pause theme song
+  if (themeStarted && !themePlayer.paused) themePlayer.pause();
 
   player.src = s.audio;
   player.play().catch(() => {});
@@ -247,17 +306,15 @@ function closePlayer() {
   player.pause(); player.src = '';
   document.getElementById('npBar').classList.remove('show');
   document.querySelectorAll('.song-card').forEach(c => c.classList.remove('playing'));
+  // Resume theme song
+  if (themeStarted) themePlayer.play().catch(() => {});
 }
 
-function prevSong() {
-  if (currentChapter && currentSong > 0) playSong(currentSong - 1);
-}
-function nextSong() {
-  if (currentChapter && currentSong + 1 < currentChapter.songs.length) playSong(currentSong + 1);
-}
+function prevSong() { if (currentChapter && currentSong > 0) playSong(currentSong - 1); }
+function nextSong() { if (currentChapter && currentSong + 1 < currentChapter.songs.length) playSong(currentSong + 1); }
 
 // Progress bar
-document.querySelector('.np-progress-mini')?.addEventListener('click', function(e) {
+document.getElementById('npProgress')?.addEventListener('click', function(e) {
   const rect = this.getBoundingClientRect();
   const pct = (e.clientX - rect.left) / rect.width;
   if (player.duration) player.currentTime = pct * player.duration;
@@ -274,4 +331,12 @@ player?.addEventListener('ended', () => {
     document.getElementById('playBtn').textContent = '▶';
     document.querySelectorAll('.song-card').forEach(c => c.classList.remove('playing'));
   }
+});
+
+// Preloader
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) { preloader.classList.add('hide'); setTimeout(() => preloader.style.display = 'none', 600); }
+  }, 800);
 });
