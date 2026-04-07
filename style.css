@@ -406,6 +406,284 @@ input, textarea, select { font-family: inherit; }
 .np-play { width: 44px; height: 44px; background: var(--accent); color: #000; border-color: var(--accent); font-size: 1rem; }
 .np-close { font-size: 0.8rem; }
 
+/* ══════════ OPENING CREDITS ══════════ */
+.opening-credits {
+  position: fixed; inset: 0; z-index: 100000;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.opening-credits.done {
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 1.2s ease, visibility 1.2s ease;
+}
+
+.oc-particles {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.oc-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+}
+
+.oc-phase {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  opacity: 0; transition: opacity 1s ease;
+}
+.oc-phase.active { opacity: 1; }
+
+/* Phase 1: Studio Logo */
+.oc-studio { text-align: center; }
+.oc-studio-icon {
+  font-size: 4rem; margin-bottom: 20px;
+  animation: ocFloat 3s ease-in-out infinite;
+}
+@keyframes ocFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.oc-studio-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.6rem; font-weight: 800;
+  letter-spacing: 8px; text-transform: uppercase;
+  color: #d4a853;
+  text-shadow: 0 0 40px rgba(212,168,83,0.4);
+  animation: ocGlow 2s ease-in-out infinite alternate;
+}
+@keyframes ocGlow { 0% { text-shadow: 0 0 20px rgba(212,168,83,0.2); } 100% { text-shadow: 0 0 60px rgba(212,168,83,0.6); } }
+.oc-studio-sub {
+  font-size: 0.9rem; color: rgba(212,168,83,0.5);
+  letter-spacing: 12px; margin-top: 8px;
+}
+
+/* Phase 2: Title */
+.oc-title-group { text-align: center; }
+.oc-subtitle {
+  font-size: 1rem; color: rgba(255,255,255,0.5);
+  letter-spacing: 4px; margin-bottom: 24px;
+  animation: ocFadeIn 1s ease forwards;
+}
+.oc-title {
+  font-size: 6rem; font-weight: 900;
+  color: #d4a853;
+  text-shadow: 0 0 80px rgba(212,168,83,0.5), 0 4px 20px rgba(0,0,0,0.5);
+  display: flex; gap: 4px; justify-content: center;
+  margin-bottom: 16px;
+}
+.oc-char {
+  display: inline-block;
+  animation: ocCharReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * 0.15s + 0.3s);
+  opacity: 0;
+  transform: translateY(60px) scale(0.8);
+}
+@keyframes ocCharReveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.oc-en-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem; font-weight: 600;
+  letter-spacing: 12px; color: rgba(255,255,255,0.4);
+  animation: ocFadeIn 1s ease 1.2s forwards;
+  opacity: 0;
+}
+@keyframes ocFadeIn { to { opacity: 1; } }
+.oc-line {
+  width: 120px; height: 2px; margin: 20px auto 0;
+  background: linear-gradient(90deg, transparent, #d4a853, transparent);
+  animation: ocLineGrow 1.5s ease 1s forwards;
+  transform: scaleX(0);
+}
+@keyframes ocLineGrow { to { transform: scaleX(1); } }
+
+/* Phase 3: Credits */
+.oc-credits-scroll {
+  text-align: center;
+  max-width: 500px;
+}
+.oc-credit-row {
+  margin-bottom: 28px;
+  opacity: 0; animation: ocCreditReveal 0.8s ease forwards;
+}
+.oc-credit-row:nth-child(1) { animation-delay: 0.2s; }
+.oc-credit-row:nth-child(2) { animation-delay: 0.5s; }
+.oc-credit-row:nth-child(3) { animation-delay: 0.8s; }
+.oc-credit-row:nth-child(4) { animation-delay: 1.1s; }
+.oc-credit-row:nth-child(5) { animation-delay: 1.4s; }
+@keyframes ocCreditReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.oc-credit-label {
+  display: block; font-size: 0.75rem;
+  color: rgba(212,168,83,0.6); letter-spacing: 4px;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.oc-credit-name {
+  display: block; font-size: 1.2rem;
+  font-weight: 700; color: #fff;
+  text-shadow: 0 0 20px rgba(212,168,83,0.3);
+}
+
+/* Phase 4: Brush Stroke */
+.oc-brush-group { text-align: center; }
+.oc-brush-stroke {
+  width: 300px; height: 6px; margin: 0 auto 24px;
+  background: linear-gradient(90deg, transparent, #d4a853, #f0d890, #d4a853, transparent);
+  border-radius: 3px;
+  animation: ocBrushReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  transform: scaleX(0); transform-origin: center;
+  box-shadow: 0 0 30px rgba(212,168,83,0.4);
+}
+@keyframes ocBrushReveal { to { transform: scaleX(1); } }
+.oc-martial-text {
+  font-size: 4rem; font-weight: 900;
+  color: #d4a853;
+  text-shadow: 0 0 60px rgba(212,168,83,0.5);
+  opacity: 0; animation: ocFadeIn 1s ease 0.8s forwards;
+  letter-spacing: 16px;
+}
+.oc-brush-sub {
+  font-size: 0.9rem; color: rgba(255,255,255,0.4);
+  letter-spacing: 6px; margin-top: 12px;
+  opacity: 0; animation: ocFadeIn 1s ease 1.2s forwards;
+}
+
+/* Skip Button */
+.oc-skip {
+  position: absolute; bottom: 30px; right: 30px;
+  background: rgba(212,168,83,0.15);
+  border: 1px solid rgba(212,168,83,0.3);
+  color: rgba(212,168,83,0.7);
+  padding: 8px 20px; border-radius: 999px;
+  font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; transition: all 0.3s;
+  z-index: 100001;
+  animation: ocFadeIn 0.5s ease 1s forwards;
+  opacity: 0;
+}
+.oc-skip:hover { background: rgba(212,168,83,0.3); color: #d4a853; border-color: #d4a853; }
+
+/* Opening sparkle particles */
+.oc-sparkle {
+  position: absolute; width: 2px; height: 2px;
+  background: #d4a853; border-radius: 50%;
+  animation: sparkle 4s linear infinite;
+}
+@keyframes sparkle {
+  0% { opacity: 0; transform: scale(0); }
+  20% { opacity: 1; transform: scale(1); }
+  80% { opacity: 0.5; }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+/* ══════════ ENDING CREDITS ══════════ */
+.ending-credits {
+  position: relative; z-index: 1;
+  padding: 80px 0 40px;
+  overflow: hidden;
+}
+.ec-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(212,168,83,0.08) 0%, transparent 60%),
+    var(--bg-secondary);
+}
+.ec-container {
+  position: relative; z-index: 1;
+  max-width: 900px; margin: 0 auto; padding: 0 20px;
+}
+
+.ec-ornament {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin-bottom: 32px;
+}
+.ec-ornament-bottom { margin-top: 40px; margin-bottom: 0; }
+.ec-orn-line {
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.ec-orn-gem {
+  color: var(--accent); font-size: 1rem;
+  animation: ecPulse 3s ease-in-out infinite;
+}
+@keyframes ecPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+.ec-title {
+  text-align: center; font-size: 2rem;
+  font-weight: 900; color: var(--accent);
+  margin-bottom: 4px;
+}
+.ec-en {
+  text-align: center; font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 8px; color: var(--text-muted);
+  margin-bottom: 40px;
+}
+
+.ec-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; margin-bottom: 48px;
+}
+@media (max-width: 640px) { .ec-grid { grid-template-columns: 1fr; } }
+
+.ec-group { margin-bottom: 24px; }
+.ec-group-title {
+  font-size: 0.85rem; font-weight: 800;
+  color: var(--accent); letter-spacing: 4px;
+  text-transform: uppercase; margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.ec-item {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0;
+}
+.ec-role { font-size: 0.85rem; color: var(--text-muted); }
+.ec-name { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+
+.ec-chapters {
+  text-align: center; margin-bottom: 40px;
+  padding: 32px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+}
+.ec-ch-title {
+  font-size: 1rem; font-weight: 800;
+  color: var(--accent); margin-bottom: 20px;
+}
+.ec-ch-list {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+.ec-ch-item {
+  padding: 6px 14px; border-radius: var(--radius-full);
+  background: var(--accent-soft); color: var(--accent);
+  font-size: 0.8rem; font-weight: 600;
+  border: 1px solid rgba(212,168,83,0.2);
+}
+
+.ec-bottom { text-align: center; }
+.ec-motto { margin-bottom: 24px; }
+.ec-motto-zh {
+  display: block; font-size: 1.3rem; font-weight: 800;
+  color: var(--accent); letter-spacing: 4px;
+  text-shadow: 0 0 20px var(--accent-glow);
+  margin-bottom: 8px;
+}
+.ec-motto-en {
+  display: block; font-size: 0.8rem;
+  font-style: italic; color: var(--text-muted);
+  letter-spacing: 1px;
+}
+.ec-year {
+  font-size: 0.85rem; color: var(--text-secondary);
+  font-weight: 600; margin-bottom: 4px;
+}
+.ec-tagline {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.7rem; color: var(--text-muted);
+  letter-spacing: 4px; text-transform: uppercase;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }

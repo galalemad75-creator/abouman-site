@@ -8,8 +8,10 @@ let currentChapter = null;
 let currentSong = -1;
 let chapters = [];
 let themeStarted = false;
+let openingDone = false;
 
 document.addEventListener('DOMContentLoaded', () => {
+  initOpeningCredits();
   initTheme();
   initNav();
   initParticles();
@@ -18,21 +20,85 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeSong();
 });
 
+/* ══════════ OPENING CREDITS ══════════ */
+let ocTimer = null;
+let ocPhase = 1;
+
+function initOpeningCredits() {
+  // Create sparkle particles
+  const ocP = document.getElementById('ocParticles');
+  if (ocP) {
+    for (let i = 0; i < 30; i++) {
+      const sp = document.createElement('div');
+      sp.className = 'oc-sparkle';
+      sp.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        animation-delay: ${Math.random() * 4}s;
+        animation-duration: ${3 + Math.random() * 4}s;
+        width: ${1 + Math.random() * 2}px;
+        height: ${1 + Math.random() * 2}px;
+      `;
+      ocP.appendChild(sp);
+    }
+  }
+  
+  startOpeningPhase(1);
+}
+
+function startOpeningPhase(phase) {
+  ocPhase = phase;
+  document.querySelectorAll('.oc-phase').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('ocPhase' + phase);
+  if (el) el.classList.add('active');
+  
+  const durations = { 1: 2500, 2: 3500, 3: 3500, 4: 3000 };
+  
+  if (phase < 4) {
+    ocTimer = setTimeout(() => startOpeningPhase(phase + 1), durations[phase]);
+  } else {
+    ocTimer = setTimeout(() => finishOpening(), durations[phase]);
+  }
+}
+
+function finishOpening() {
+  if (openingDone) return;
+  openingDone = true;
+  const oc = document.getElementById('openingCredits');
+  if (oc) {
+    oc.classList.add('done');
+    setTimeout(() => { oc.style.display = 'none'; }, 1500);
+  }
+  // Start theme music after opening finishes
+  setTimeout(() => {
+    if (!themeStarted) {
+      themePlayer.src = 'audio/theme.mp3';
+      themePlayer.volume = 0.3;
+      themePlayer.loop = true;
+      themePlayer.play().then(() => { themeStarted = true; }).catch(() => {});
+    }
+  }, 500);
+}
+
+function skipOpening() {
+  clearTimeout(ocTimer);
+  finishOpening();
+}
+
 /* ---- Theme Song (auto-play on first interaction) ---- */
 function initThemeSong() {
   themePlayer.src = 'audio/theme.mp3';
   themePlayer.volume = 0.3;
   themePlayer.loop = true;
 
-  // Try to play after user interaction
+  // Try to play after opening credits finish OR after user interaction
   const startTheme = () => {
-    if (!themeStarted) {
+    if (!themeStarted && openingDone) {
       themePlayer.play().then(() => { themeStarted = true; }).catch(() => {});
     }
   };
-  document.addEventListener('click', startTheme, { once: true });
+  document.addEventListener('click', startTheme, { once: false });
   document.addEventListener('touchstart', startTheme, { once: true });
-  document.addEventListener('scroll', startTheme, { once: true });
 }
 
 /* ---- Theme (Dark/Light) ---- */

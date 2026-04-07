@@ -13,6 +13,74 @@
 </head>
 <body>
 
+<!-- ══════════ OPENING CREDITS (تتر افتتاحي) ══════════ -->
+<div class="opening-credits" id="openingCredits">
+  <div class="oc-particles" id="ocParticles"></div>
+  <div class="oc-vignette"></div>
+  
+  <!-- Phase 1: Dark fade in -->
+  <div class="oc-phase oc-phase-1 active" id="ocPhase1">
+    <div class="oc-studio">
+      <div class="oc-studio-icon">🎬</div>
+      <div class="oc-studio-text">Legendary Productions</div>
+      <div class="oc-studio-sub">传奇制作</div>
+    </div>
+  </div>
+  
+  <!-- Phase 2: Title reveal -->
+  <div class="oc-phase oc-phase-2" id="ocPhase2">
+    <div class="oc-title-group">
+      <div class="oc-subtitle">一部震撼人心的音乐传记</div>
+      <h1 class="oc-title">
+        <span class="oc-char" style="--i:0">传</span>
+        <span class="oc-char" style="--i:1">奇</span>
+        <span class="oc-char" style="--i:2">叶</span>
+        <span class="oc-char" style="--i:3">问</span>
+      </h1>
+      <div class="oc-en-title">THE LEGEND OF IP MAN</div>
+      <div class="oc-line"></div>
+    </div>
+  </div>
+  
+  <!-- Phase 3: Credits scroll -->
+  <div class="oc-phase oc-phase-3" id="ocPhase3">
+    <div class="oc-credits-scroll">
+      <div class="oc-credit-row">
+        <span class="oc-credit-label">导演 / 编剧</span>
+        <span class="oc-credit-name">Galal E. Ahmed</span>
+      </div>
+      <div class="oc-credit-row">
+        <span class="oc-credit-label">音乐制作</span>
+        <span class="oc-credit-name">传奇音乐工作室</span>
+      </div>
+      <div class="oc-credit-row">
+        <span class="oc-credit-label">视觉设计</span>
+        <span class="oc-credit-name">Legendary Studio</span>
+      </div>
+      <div class="oc-credit-row">
+        <span class="oc-credit-label">主演</span>
+        <span class="oc-credit-name">叶问 — Ip Man</span>
+      </div>
+      <div class="oc-credit-row">
+        <span class="oc-credit-label">武术指导</span>
+        <span class="oc-credit-name">咏春拳传承</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Phase 4: Brush stroke reveal -->
+  <div class="oc-phase oc-phase-4" id="ocPhase4">
+    <div class="oc-brush-group">
+      <div class="oc-brush-stroke"></div>
+      <div class="oc-martial-text">🥋 咏 春</div>
+      <div class="oc-brush-sub">Wing Chun · 永春拳</div>
+    </div>
+  </div>
+  
+  <!-- Skip button -->
+  <button class="oc-skip" id="ocSkip" onclick="skipOpening()">跳过 Skip ▶</button>
+</div>
+
 <!-- Preloader -->
 <div class="preloader" id="preloader">
   <div class="preloader-inner">
@@ -147,6 +215,97 @@
   </div>
 </section>
 
+<!-- ══════════ ENDING CREDITS (تتر ختامي) ══════════ -->
+<section class="ending-credits" id="endingCredits">
+  <div class="ec-bg"></div>
+  <div class="ec-container">
+    
+    <!-- Top ornament -->
+    <div class="ec-ornament">
+      <span class="ec-orn-line"></span>
+      <span class="ec-orn-gem">✦</span>
+      <span class="ec-orn-line"></span>
+    </div>
+    
+    <h2 class="ec-title">演职员表</h2>
+    <div class="ec-en">CAST & CREW</div>
+    
+    <div class="ec-grid">
+      <!-- Column 1 -->
+      <div class="ec-column">
+        <div class="ec-group">
+          <div class="ec-group-title">制作团队</div>
+          <div class="ec-item"><span class="ec-role">导演</span><span class="ec-name">Galal E. Ahmed</span></div>
+          <div class="ec-item"><span class="ec-role">编剧</span><span class="ec-name">Galal E. Ahmed</span></div>
+          <div class="ec-item"><span class="ec-role">制作人</span><span class="ec-name">传奇工作室</span></div>
+          <div class="ec-item"><span class="ec-role">网站开发</span><span class="ec-name">Galal E. Ahmed</span></div>
+        </div>
+        
+        <div class="ec-group">
+          <div class="ec-group-title">音乐团队</div>
+          <div class="ec-item"><span class="ec-role">作曲</span><span class="ec-name">传奇音乐工作室</span></div>
+          <div class="ec-item"><span class="ec-role">编曲</span><span class="ec-name">传奇音乐工作室</span></div>
+          <div class="ec-item"><span class="ec-role">混音</span><span class="ec-name">Legendary Audio</span></div>
+        </div>
+      </div>
+      
+      <!-- Column 2 -->
+      <div class="ec-column">
+        <div class="ec-group">
+          <div class="ec-group-title">武术指导</div>
+          <div class="ec-item"><span class="ec-role">武术顾问</span><span class="ec-name">咏春拳传承</span></div>
+          <div class="ec-item"><span class="ec-role">武术指导</span><span class="ec-name">Wing Chun School</span></div>
+        </div>
+        
+        <div class="ec-group">
+          <div class="ec-group-title">特别鸣谢</div>
+          <div class="ec-item"><span class="ec-role">武术传承</span><span class="ec-name">叶问宗师</span></div>
+          <div class="ec-item"><span class="ec-role">灵感来源</span><span class="ec-name">李小龙 — Bruce Lee</span></div>
+          <div class="ec-item"><span class="ec-role">特别致谢</span><span class="ec-name">所有武术爱好者</span></div>
+        </div>
+        
+        <div class="ec-group">
+          <div class="ec-group-title">配音 & 演出</div>
+          <div class="ec-item"><span class="ec-role">旁白</span><span class="ec-name">传奇之声</span></div>
+          <div class="ec-item"><span class="ec-role">配乐演唱</span><span class="ec-name">传奇音乐团</span></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Chapters Summary -->
+    <div class="ec-chapters">
+      <div class="ec-ch-title">章节一览 · Chapter Guide</div>
+      <div class="ec-ch-list">
+        <span class="ec-ch-item">第1章 · 出生</span>
+        <span class="ec-ch-item">第2章 · 学艺</span>
+        <span class="ec-ch-item">第3章 · 成名</span>
+        <span class="ec-ch-item">第4章 · 教授</span>
+        <span class="ec-ch-item">第5章 · 传承</span>
+        <span class="ec-ch-item">第6章 · 武道</span>
+        <span class="ec-ch-item">第7章 · 弟子</span>
+        <span class="ec-ch-item">第8章 · 永恒</span>
+      </div>
+    </div>
+    
+    <!-- Bottom -->
+    <div class="ec-bottom">
+      <div class="ec-motto">
+        <span class="ec-motto-zh">「以武入道，以德服人」</span>
+        <span class="ec-motto-en">"Through martial arts, achieve enlightenment. Through virtue, earn respect."</span>
+      </div>
+      <div class="ec-year">© 2026 传奇叶问 — The Legend of Ip Man</div>
+      <div class="ec-tagline">A Legendary Productions Project</div>
+    </div>
+    
+    <!-- Bottom ornament -->
+    <div class="ec-ornament ec-ornament-bottom">
+      <span class="ec-orn-line"></span>
+      <span class="ec-orn-gem">🥋</span>
+      <span class="ec-orn-line"></span>
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer class="footer">
   <div class="container">
@@ -155,7 +314,7 @@
         <span class="logo-icon">🥋</span>
         <span>传奇叶问</span>
       </div>
-      <p class="footer-copy">© 2026 版权所有</p>
+      <p class="footer-copy">© 2026 传奇叶问 — The Legend of Ip Man</p>
     </div>
   </div>
 </footer>
