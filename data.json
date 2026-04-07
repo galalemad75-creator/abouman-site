@@ -7,14 +7,14 @@
       "songs": [
         {
           "id": 1,
-          "title": "The Legend of Ip Man",
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legend_of_Ip_Man.mp3",
           "image": "",
-          "file_path": "audio/The_Legend_of_Ip_Man.mp3",
-          "created": "2026-04-08T06:38:00Z"
+          "title": "The Legend of Ip Man",
+          "created": "2026-04-08T06:38:00Z",
+          "file_path": "audio/The_Legend_of_Ip_Man.mp3"
         }
       ],
-      "updated_at": "2026-04-08T06:38:00+00:00"
+      "updated_at": "2026-04-07T22:39:55.826+00:00"
     },
     {
       "id": 2,
@@ -23,14 +23,14 @@
       "songs": [
         {
           "id": 2,
-          "title": "The Legend of Ip Man 2",
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legend_of_Ip_Man_2.mp3",
           "image": "",
-          "file_path": "audio/The_Legend_of_Ip_Man_2.mp3",
-          "created": "2026-04-08T06:38:00Z"
+          "title": "The Legend of Ip Man 2",
+          "created": "2026-04-08T06:38:00Z",
+          "file_path": "audio/The_Legend_of_Ip_Man_2.mp3"
         }
       ],
-      "updated_at": "2026-04-08T06:38:00+00:00"
+      "updated_at": "2026-04-07T22:39:55.969+00:00"
     },
     {
       "id": 3,
@@ -39,14 +39,14 @@
       "songs": [
         {
           "id": 3,
-          "title": "The Legacy Lives On",
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legacy_Lives_On.mp3",
           "image": "",
-          "file_path": "audio/The_Legacy_Lives_On.mp3",
-          "created": "2026-04-08T06:38:00Z"
+          "title": "The Legacy Lives On",
+          "created": "2026-04-08T06:38:00Z",
+          "file_path": "audio/The_Legacy_Lives_On.mp3"
         }
       ],
-      "updated_at": "2026-04-08T06:38:00+00:00"
+      "updated_at": "2026-04-07T22:39:56.307+00:00"
     },
     {
       "id": 4,
@@ -55,14 +55,14 @@
       "songs": [
         {
           "id": 4,
-          "title": "The Legacy Lives On 2",
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legacy_Lives_On_2.mp3",
           "image": "",
-          "file_path": "audio/The_Legacy_Lives_On_2.mp3",
-          "created": "2026-04-08T06:38:00Z"
+          "title": "The Legacy Lives On 2",
+          "created": "2026-04-08T06:38:00Z",
+          "file_path": "audio/The_Legacy_Lives_On_2.mp3"
         }
       ],
-      "updated_at": "2026-04-08T06:38:00+00:00"
+      "updated_at": "2026-04-07T22:39:56.443+00:00"
     },
     {
       "id": 5,
@@ -71,14 +71,14 @@
       "songs": [
         {
           "id": 5,
-          "title": "Legacy of a Master",
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/Legacy_of_a_Master.mp3",
           "image": "",
-          "file_path": "audio/Legacy_of_a_Master.mp3",
-          "created": "2026-04-08T06:38:00Z"
+          "title": "Legacy of a Master",
+          "created": "2026-04-08T06:38:00Z",
+          "file_path": "audio/Legacy_of_a_Master.mp3"
         }
       ],
-      "updated_at": "2026-04-08T06:38:00+00:00"
+      "updated_at": "2026-04-07T22:39:56.637+00:00"
     },
     {
       "id": 6,
@@ -87,14 +87,14 @@
       "songs": [
         {
           "id": 6,
-          "title": "Master's Path",
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/Masters_Path.mp3",
           "image": "",
-          "file_path": "audio/Masters_Path.mp3",
-          "created": "2026-04-08T06:38:00Z"
+          "title": "Master's Path",
+          "created": "2026-04-08T06:38:00Z",
+          "file_path": "audio/Masters_Path.mp3"
         }
       ],
-      "updated_at": "2026-04-08T06:38:00+00:00"
+      "updated_at": "2026-04-07T22:39:56.768+00:00"
     },
     {
       "id": 7,
@@ -103,39 +103,66 @@
       "songs": [
         {
           "id": 7,
-          "title": "Legacy and Influence of Ip Man's Disciples",
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/Legacy_and_Influence_of_Ip_Mans_Disciples.mp3",
           "image": "",
-          "file_path": "audio/Legacy_and_Influence_of_Ip_Mans_Disciples.mp3",
-          "created": "2026-04-08T06:38:00Z"
+          "title": "Legacy and Influence of Ip Man's Disciples",
+          "created": "2026-04-08T06:38:00Z",
+          "file_path": "audio/Legacy_and_Influence_of_Ip_Mans_Disciples.mp3"
         }
       ],
-      "updated_at": "2026-04-08T06:38:00+00:00"
+      "updated_at": "2026-04-07T22:39:56.893+00:00"
     },
     {
       "id": 8,
       "name": "Chapter 8",
       "icon": "🎵",
-      "songs": [],
-      "updated_at": "2026-04-07T22:26:16+00:00"
+      "songs": [
+        {
+          "id": 8,
+          "title": "The Legacy Lives On 3",
+          "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legacy_Lives_On_3.mp3",
+          "image": "",
+          "file_path": "audio/The_Legacy_Lives_On_3.mp3",
+          "created": "2026-04-08T06:42:00Z"
+        }
+      ],
+      "updated_at": "2026-04-08T06:42:00+00:00"
     },
     {
       "id": 9,
       "name": "Music 1 🎹",
       "icon": "🎹",
-      "songs": [],
-      "updated_at": "2026-04-07T22:26:16+00:00"
+      "songs": [
+        {
+          "id": 9,
+          "title": "The Legacy Lives On",
+          "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legacy_Lives_On_Music1.mp3",
+          "image": "",
+          "file_path": "audio/The_Legacy_Lives_On_Music1.mp3",
+          "created": "2026-04-08T06:42:00Z"
+        }
+      ],
+      "updated_at": "2026-04-08T06:42:00+00:00"
     },
     {
       "id": 10,
       "name": "Music 2 🎹",
       "icon": "🎹",
-      "songs": [],
-      "updated_at": "2026-04-07T22:26:16+00:00"
+      "songs": [
+        {
+          "id": 10,
+          "title": "The Legacy Lives On",
+          "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legacy_Lives_On_Music2.mp3",
+          "image": "",
+          "file_path": "audio/The_Legacy_Lives_On_Music2.mp3",
+          "created": "2026-04-08T06:42:00Z"
+        }
+      ],
+      "updated_at": "2026-04-08T06:42:00+00:00"
     }
   ],
   "nextId": {
-    "song": 8,
+    "song": 11,
     "chapter": 11
   },
   "admin": {
