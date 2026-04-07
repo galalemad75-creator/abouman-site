@@ -1,0 +1,16 @@
+{
+  "chapters": [
+    {"id": 1, "name": "Chapter 1", "icon": "🎵", "songs": []},
+    {"id": 2, "name": "Chapter 2", "icon": "🎵", "songs": []},
+    {"id": 3, "name": "Chapter 3", "icon": "🎵", "songs": []},
+    {"id": 4, "name": "Chapter 4", "icon": "🎵", "songs": []},
+    {"id": 5, "name": "Chapter 5", "icon": "🎵", "songs": []},
+    {"id": 6, "name": "Chapter 6", "icon": "🎵", "songs": []},
+    {"id": 7, "name": "Chapter 7", "icon": "🎵", "songs": []},
+    {"id": 8, "name": "Chapter 8", "icon": "🎵", "songs": []},
+    {"id": 9, "name": "Music 1 🎹", "icon": "🎹", "songs": []},
+    {"id": 10, "name": "Music 2 🎹", "icon": "🎹", "songs": []}
+  ],
+  "nextId": {"chapter": 11, "song": 1},
+  "admin": {"email": "", "password": ""}
+}
