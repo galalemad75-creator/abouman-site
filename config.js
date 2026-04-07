@@ -77,7 +77,7 @@ const DB = {
   },
   async resetPassword(newPass, newEmail) {
     this._cache = this._cache || {};
-    this._cache.admin = { email: newEmail || 'admin@ipman.com', password: newPass };
+    this._cache.admin = { email: newEmail || 'admin@abouman.com', password: newPass };
     await this.save(); return { ok: true };
   },
   isLoggedIn() { return !!localStorage.getItem('ab_admin'); },

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>关于叶问 — 传奇叶问</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥋</text></svg>">
+<title>About Dr. Ibrahim El-Feki — Human Development Pioneer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
   .about-hero { padding: calc(var(--header-height) + 60px) 20px 40px; text-align: center; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
-  .about-hero h1 { font-size: 2.4rem; font-weight: 900; margin-bottom: 8px; color: var(--accent); }
+  .about-hero h1 { font-size: 2.4rem; font-weight: 900; margin-bottom: 8px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .about-hero p { color: var(--text-secondary); font-size: 1.1rem; }
   .about-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 80px; }
   .about-section { margin-bottom: 40px; }
@@ -20,130 +20,101 @@
   .about-section ul { list-style: none; padding: 0; }
   .about-section li { padding: 8px 0; padding-left: 24px; position: relative; color: var(--text-secondary); }
   .about-section li::before { content: '✦'; position: absolute; left: 0; color: var(--accent); }
-  .quote-box { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 20px 24px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 20px 0; font-style: italic; color: var(--text-primary); }
-  .timeline { border-left: 2px solid var(--accent); padding-left: 24px; margin: 20px 0; }
-  .timeline-item { margin-bottom: 20px; position: relative; }
-  .timeline-item::before { content: ''; position: absolute; left: -31px; top: 4px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 2px solid var(--bg-primary); }
-  .timeline-year { font-weight: 800; color: var(--accent); font-size: 0.85rem; }
-  .timeline-desc { color: var(--text-secondary); font-size: 0.9rem; }
+  .quote-box { background: var(--accent-light); border-right: 4px solid var(--accent); padding: 20px 24px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 20px 0; font-style: italic; color: var(--text-primary); }
+  .courses-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+  .course-chip { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; transition: 0.2s; }
+  .course-chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .course-chip .icon { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+  .course-chip .name { font-weight: 700; font-size: 0.85rem; }
 </style>
 </head>
 <body>
 <header class="header" id="header">
   <div class="container nav-inner">
-    <a href="index.html" class="logo"><span class="logo-icon">🥋</span><span class="logo-text">叶问传奇</span></a>
+    <a href="index.html" class="logo"><span class="logo-icon">📖</span><span class="logo-text">اب مان</span></a>
     <nav style="display:flex;gap:24px">
-      <a href="index.html" class="nav-link">首页</a>
-      <a href="about.html" class="nav-link active">关于</a>
-      <a href="contact.html" class="nav-link">联系</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link active">About</a>
+      <a href="contact.html" class="nav-link">Contact</a>
     </nav>
     <div class="nav-actions">
-      <button class="theme-btn" id="themeToggle" aria-label="切换主题">
-        <span class="theme-icon">🌙</span>
-      </button>
+      <button id="themeToggle">🌙</button>
     </div>
   </div>
 </header>
 
 <section class="about-hero">
-  <div style="font-size:4rem;margin-bottom:16px">🥋</div>
-  <h1>叶问宗师</h1>
-  <p>咏春拳的一代宗师</p>
-  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:8px">Ip Man (1893–1972) — The Grandmaster of Wing Chun</p>
+  <div style="font-size:4rem;margin-bottom:16px">📖</div>
+  <h1>Dr. Ibrahim El-Feki</h1>
+  <p>A Pioneer of Human Development in the Arab World</p>
+  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:8px">إبراهيم الفقي — رحمه الله</p>
 </section>
 
 <div class="about-content">
   <div class="about-section">
-    <h2>🌟 叶问是谁？</h2>
-    <p>叶问（1893年10月1日—1972年12月2日），原名叶继问，是咏春拳的集大成者，被誉为「一代宗师」。他出生于广东佛山，自幼习武，尽得陈华顺、梁璧等名师真传。</p>
-    <p>叶问宗师将咏春拳从一门秘传武术推广至全世界，培养了包括李小龙在内的无数杰出弟子，彻底改变了武术界的格局。</p>
+    <h2>🌟 Who Was Dr. Ibrahim El-Feki?</h2>
+    <p>Dr. Ibrahim El-Feki was one of the most influential human development speakers in the Arab world. Born in Egypt, he dedicated his life to teaching people how to improve themselves, manage their time, think positively, and achieve their goals.</p>
+    <p>His lectures, books, and training programs have touched the lives of millions of people across the Middle East and beyond. He was known for his simple, powerful way of delivering complex ideas that anyone could understand and apply.</p>
   </div>
 
   <div class="about-section">
-    <h2>📜 生平大事</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-year">1893年</div>
-        <div class="timeline-desc">出生于广东佛山，家境殷实，自幼随陈华顺习武</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">1909年</div>
-        <div class="timeline-desc">赴香港就读圣士提反书院，后得梁璧指点，拳艺大进</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">1949年</div>
-        <div class="timeline-desc">移居香港，在港九饭店职工总会开设咏春拳班授徒</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">1950年代</div>
-        <div class="timeline-desc">正式开班授徒，培养出梁相、叶准、黄淳梁等高徒</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">1955年</div>
-        <div class="timeline-desc">年仅13岁的李小龙拜入门下，后来成为国际武打巨星</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">1972年</div>
-        <div class="timeline-desc">在香港辞世，享年79岁，其武术精神永世传承</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="about-section">
-    <h2>💡 咏春拳哲学</h2>
+    <h2>💡 His Philosophy</h2>
     <div class="quote-box">
-      「以无招胜有招，以小胜大，以弱胜强」—— 叶问
+      "The mind is like a garden — if you don't plant good thoughts, weeds of negativity will grow instead."
     </div>
-    <p>咏春拳的核心理念：</p>
+    <p>اب مان believed that every human being has unlimited potential waiting to be unlocked. His teachings focused on:</p>
     <ul>
-      <li><strong>以小胜大</strong> — 借力打力，四两拨千斤</li>
-      <li><strong>中线理论</strong> — 守住身体中线，攻防一体</li>
-      <li><strong>黐手训练</strong> — 通过触觉感知对手意图</li>
-      <li><strong>连消带打</strong> — 防守与进攻同步完成</li>
-      <li><strong>攻守同期</strong> — 攻防合一，不分先后</li>
-      <li><strong>实战为本</strong> — 一切以实战效果为标准</li>
+      <li><strong>Positive Thinking</strong> — Transforming your mindset to see opportunities instead of obstacles</li>
+      <li><strong>Time Management</strong> — Making every moment count and setting clear priorities</li>
+      <li><strong>Self-Improvement</strong> — Continuous learning through reading, reflection, and constructive criticism</li>
+      <li><strong>Goal Setting</strong> — Defining clear goals and persisting until they are achieved</li>
+      <li><strong>Communication</strong> — Building meaningful relationships through active listening and clear expression</li>
+      <li><strong>Willpower & Determination</strong> — Developing the inner strength to overcome any challenge</li>
     </ul>
   </div>
 
   <div class="about-section">
-    <h2>🌍 永恒的传承</h2>
-    <p>叶问宗师虽已离世五十余年，但他的武术精神却遍布全球。如今，咏春拳已在超过60个国家传播，成为世界上最受欢迎的武术之一。</p>
-    <p>他的弟子李小龙将中国功夫带向世界，而叶问的徒子徒孙们继续在各地传承这门绝学。从香港到纽约，从伦敦到东京，叶问的影子无处不在。</p>
+    <h2>📚 His Courses</h2>
+    <p>This podcast series brings together his most important teachings in an easy-to-listen format:</p>
+    <div class="courses-list">
+      <div class="course-chip"><span class="icon">☀️</span><span class="name">Positive Thinking</span></div>
+      <div class="course-chip"><span class="icon">⏳</span><span class="name">Time is Precious</span></div>
+      <div class="course-chip"><span class="icon">🚀</span><span class="name">Self-Improvement</span></div>
+      <div class="course-chip"><span class="icon">🎯</span><span class="name">Goals to Achieve</span></div>
+      <div class="course-chip"><span class="icon">💬</span><span class="name">Art of Communication</span></div>
+      <div class="course-chip"><span class="icon">📖</span><span class="name">Biography</span></div>
+    </div>
+  </div>
+
+  <div class="about-section">
+    <h2>🌍 His Legacy</h2>
+    <p>Dr. Ibrahim El-Feki passed away, but his teachings live on. His message of self-belief, hard work, and positive thinking continues to inspire new generations.</p>
+    <p>This podcast series is a tribute to his legacy — making his wisdom accessible to everyone, anywhere, anytime.</p>
     <div class="quote-box">
-      「武术的最高境界不是打败对手，而是超越自我。」
+      "رحمه الله — May God have mercy on his soul. His words continue to light the way for millions."
     </div>
   </div>
 
   <div style="text-align:center;margin-top:40px">
-    <a href="index.html" class="btn btn-primary" style="font-size:1rem;padding:14px 32px">🎧 开始收听 →</a>
+    <a href="index.html" class="btn btn-primary" style="font-size:1rem;padding:14px 32px">🎧 Start Listening →</a>
   </div>
 </div>
 
 <footer class="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="logo-icon">🥋</span>
-        <span>传奇叶问</span>
-      </div>
-      <p class="footer-copy">© 2026 传奇叶问 — The Legend of Ip Man</p>
-    </div>
-  </div>
+  <p>📖 Dr. Ibrahim El-Feki — Human Development Series</p>
+  <p style="margin-top:4px">In loving memory — رحمه الله</p>
 </footer>
 
 <script src="config.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('ipman_theme');
+  const saved = localStorage.getItem('ab_theme');
   const dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  const icon = document.querySelector('.theme-icon');
-  if (icon) icon.textContent = dark ? '🌙' : '☀️';
   document.getElementById('themeToggle').addEventListener('click', () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('ipman_theme', next);
-    if (icon) icon.textContent = next === 'dark' ? '🌙' : '☀️';
+    localStorage.setItem('ab_theme', next);
   });
 });
 </script>
