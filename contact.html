@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="zh" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — اب مان Podcast</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<title>联系我们 — 传奇叶问</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥋</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
   .contact-wrap { max-width: 600px; margin: 0 auto; padding: calc(var(--header-height) + 40px) 20px 80px; }
@@ -19,67 +19,79 @@
   .contact-card input, .contact-card textarea { width: 100%; padding: 12px 16px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem; }
   .contact-card textarea { min-height: 120px; resize: vertical; }
   .contact-card input:focus, .contact-card textarea:focus { outline: none; border-color: var(--accent); }
-  .contact-card .submit-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-full); font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; }
-  .contact-card .submit-btn:hover { background: var(--accent-hover); }
+  .contact-card .submit-btn { width: 100%; padding: 14px; background: var(--accent); color: #000; border: none; border-radius: var(--radius-full); font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; }
+  .contact-card .submit-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
 </style>
 </head>
 <body>
 <header class="header" id="header">
   <div class="container nav-inner">
-    <a href="index.html" class="logo"><span class="logo-icon">📖</span><span class="logo-text">اب مان</span></a>
+    <a href="index.html" class="logo"><span class="logo-icon">🥋</span><span class="logo-text">叶问传奇</span></a>
     <nav style="display:flex;gap:24px">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="about.html" class="nav-link">About</a>
-      <a href="contact.html" class="nav-link active">Contact</a>
+      <a href="index.html" class="nav-link">首页</a>
+      <a href="about.html" class="nav-link">关于</a>
+      <a href="contact.html" class="nav-link active">联系</a>
     </nav>
     <div class="nav-actions">
-      <button id="themeToggle">🌙</button>
+      <button class="theme-btn" id="themeToggle" aria-label="切换主题">
+        <span class="theme-icon">🌙</span>
+      </button>
     </div>
   </div>
 </header>
 
 <div class="contact-wrap">
-  <h1>📬 Contact Us</h1>
-  <p class="sub">Have a question or suggestion? We'd love to hear from you.</p>
+  <h1>📬 联系我们</h1>
+  <p class="sub">有问题或建议？我们期待您的反馈。</p>
   <div class="contact-card">
     <form onsubmit="handleSubmit(event)">
       <div class="form-group">
-        <label>Your Name</label>
-        <input type="text" required placeholder="Enter your name">
+        <label>您的姓名</label>
+        <input type="text" required placeholder="请输入您的姓名">
       </div>
       <div class="form-group">
-        <label>Your Email</label>
-        <input type="email" required placeholder="Enter your email">
+        <label>电子邮箱</label>
+        <input type="email" required placeholder="请输入您的邮箱">
       </div>
       <div class="form-group">
-        <label>Message</label>
-        <textarea required placeholder="Write your message here..."></textarea>
+        <label>留言内容</label>
+        <textarea required placeholder="请输入您的留言..."></textarea>
       </div>
-      <button type="submit" class="submit-btn">📤 Send Message</button>
+      <button type="submit" class="submit-btn">📤 发送消息</button>
     </form>
   </div>
 </div>
 
 <footer class="footer">
-  <p>📖 Dr. Ibrahim El-Feki — Human Development Series</p>
-  <p style="margin-top:4px">In loving memory — رحمه الله</p>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">🥋</span>
+        <span>传奇叶问</span>
+      </div>
+      <p class="footer-copy">© 2026 传奇叶问 — The Legend of Ip Man</p>
+    </div>
+  </div>
 </footer>
 
 <script src="config.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('ab_theme');
+  const saved = localStorage.getItem('ipman_theme');
   const dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  const icon = document.querySelector('.theme-icon');
+  if (icon) icon.textContent = dark ? '🌙' : '☀️';
   document.getElementById('themeToggle').addEventListener('click', () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('ab_theme', next);
+    localStorage.setItem('ipman_theme', next);
+    if (icon) icon.textContent = next === 'dark' ? '🌙' : '☀️';
   });
 });
 function handleSubmit(e) {
   e.preventDefault();
-  alert('Thank you for your message! We will get back to you soon.');
+  alert('感谢您的留言！我们会尽快回复。');
   e.target.reset();
 }
 </script>
