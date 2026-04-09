@@ -378,8 +378,41 @@ function closePlayer() {
   if (themeStarted) themePlayer.play().catch(() => {});
 }
 
-function prevSong() { if (currentChapter && currentSong > 0) playSong(currentSong - 1); }
-function nextSong() { if (currentChapter && currentSong + 1 < currentChapter.songs.length) playSong(currentSong + 1); }
+function prevSong() {
+  if (!currentChapter) return;
+  if (currentSong > 0) { playSong(currentSong - 1); return; }
+  // Go to previous chapter's last song
+  const chIdx = chapters.findIndex(c => c.id === currentChapter.id);
+  if (chIdx > 0) {
+    const prevCh = chapters[chIdx - 1];
+    if (prevCh.songs && prevCh.songs.length > 0) {
+      currentChapter = prevCh;
+      playSong(prevCh.songs.length - 1);
+      updateChapterTitle();
+    }
+  }
+}
+
+function nextSong() {
+  if (!currentChapter) return;
+  if (currentSong + 1 < currentChapter.songs.length) { playSong(currentSong + 1); return; }
+  // Go to next chapter's first song
+  const chIdx = chapters.findIndex(c => c.id === currentChapter.id);
+  if (chIdx < chapters.length - 1) {
+    const nextCh = chapters[chIdx + 1];
+    if (nextCh.songs && nextCh.songs.length > 0) {
+      currentChapter = nextCh;
+      playSong(0);
+      updateChapterTitle();
+    }
+  }
+}
+
+function updateChapterTitle() {
+  document.getElementById('npSub').textContent = currentChapter.name;
+  // Highlight correct song card if visible
+  document.querySelectorAll('.song-card').forEach(c => c.classList.remove('playing'));
+}
 
 // Progress bar
 document.getElementById('npProgress')?.addEventListener('click', function(e) {
@@ -394,11 +427,7 @@ player?.addEventListener('timeupdate', () => {
 });
 
 player?.addEventListener('ended', () => {
-  if (currentChapter && currentSong + 1 < currentChapter.songs.length) playSong(currentSong + 1);
-  else {
-    document.getElementById('playBtn').textContent = '▶';
-    document.querySelectorAll('.song-card').forEach(c => c.classList.remove('playing'));
-  }
+  nextSong();
 });
 
 // Preloader
