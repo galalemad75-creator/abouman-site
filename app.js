@@ -410,8 +410,29 @@ function nextSong() {
 
 function updateChapterTitle() {
   document.getElementById('npSub').textContent = currentChapter.name;
-  // Highlight correct song card if visible
-  document.querySelectorAll('.song-card').forEach(c => c.classList.remove('playing'));
+  // Update chapter title in songs view if visible
+  const chTitle = document.getElementById('chapterTitle');
+  if (chTitle) chTitle.textContent = `${currentChapter.icon} ${currentChapter.name}`;
+  // Re-render songs list for the new chapter
+  renderSongsList();
+}
+
+function renderSongsList() {
+  const sl = document.getElementById('songsList');
+  if (!sl || !currentChapter) return;
+  if (!currentChapter.songs || !currentChapter.songs.length) {
+    sl.innerHTML = `<div class="empty"><div class="empty-icon">🎙️</div><h3 style="margin-bottom:8px;">暂无曲目</h3><p>曲目即将上线</p></div>`;
+  } else {
+    sl.innerHTML = currentChapter.songs.map((s, i) => `
+      <div class="song-card" id="sc-${i}" onclick="playSong(${i})">
+        ${s.image ? `<img src="${s.image}" class="song-img" onerror="this.style.display='none'" loading="lazy">` : '<div class="song-img" style="background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎵</div>'}
+        <div class="song-info"><div class="song-title">${s.title}</div></div>
+        <button class="song-play" onclick="event.stopPropagation(); playSong(${i})">▶</button>
+      </div>
+    `).join('');
+  }
+  // Highlight currently playing song
+  document.getElementById('sc-' + currentSong)?.classList.add('playing');
 }
 
 // Progress bar
