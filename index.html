@@ -220,6 +220,28 @@
   </div>
 </section>
 
+<!-- Email Gate Modal -->
+<div class="email-modal-overlay" id="emailModal">
+  <div class="email-modal">
+    <button class="email-modal-close" onclick="closeEmailModal()">✕</button>
+    <div class="email-modal-icon">📚</div>
+    <h2 class="email-modal-title">免费下载 · Free Download</h2>
+    <p class="email-modal-sub">请输入您的邮箱以获取下载链接<br>Enter your email to get the download link</p>
+    <form id="emailForm" onsubmit="return handleEmailSubmit(event)">
+      <input type="hidden" id="emailBookName" value="">
+      <input type="hidden" id="emailBookUrl" value="">
+      <div class="email-input-wrap">
+        <span class="email-icon">📧</span>
+        <input type="email" id="emailInput" placeholder="your@email.com" required autocomplete="email">
+      </div>
+      <button type="submit" class="btn btn-hero email-submit-btn">
+        <span>📩 获取下载链接 · Get Download</span>
+      </button>
+    </form>
+    <p class="email-modal-privacy">🔒 您的邮箱安全无虞 · Your email is safe with us</p>
+  </div>
+</div>
+
 <!-- Book Downloads -->
 <section class="download-section" id="downloads">
   <div class="container">
@@ -234,10 +256,12 @@
         <div class="download-info">
           <h3>Legacy of the Dragon</h3>
           <p>English Edition</p>
+          <div class="download-count" id="count-en-pdf">📥 0 downloads</div>
+          <div class="download-count download-count-sm" id="count-en-docx">📄 0 downloads</div>
         </div>
         <div class="download-btns">
-          <a href="books/Legacy_of_the_Dragon_EN.pdf" download class="btn btn-primary download-btn">📥 Download PDF</a>
-          <a href="books/Legacy_of_the_Dragon_EN.docx" download class="btn btn-outline download-btn download-btn-sm">📄 DOCX</a>
+          <button onclick="openEmailGate('Legacy_of_the_Dragon_EN.pdf', 'books/Legacy_of_the_Dragon_EN.pdf', 'en-pdf')" class="btn btn-primary download-btn">📥 Download PDF</button>
+          <button onclick="openEmailGate('Legacy_of_the_Dragon_EN.docx', 'books/Legacy_of_the_Dragon_EN.docx', 'en-docx')" class="btn btn-outline download-btn download-btn-sm">📄 DOCX</button>
         </div>
       </div>
       <div class="download-card">
@@ -245,10 +269,12 @@
         <div class="download-info">
           <h3>龙之传承</h3>
           <p>中文版 · Chinese Edition</p>
+          <div class="download-count" id="count-zh-pdf">📥 0 downloads</div>
+          <div class="download-count download-count-sm" id="count-zh-docx">📄 0 downloads</div>
         </div>
         <div class="download-btns">
-          <a href="books/Legacy_of_the_Dragon_ZH.pdf" download class="btn btn-primary download-btn">📥 免费下载 PDF</a>
-          <a href="books/Legacy_of_the_Dragon_ZH.docx" download class="btn btn-outline download-btn download-btn-sm">📄 DOCX</a>
+          <button onclick="openEmailGate('Legacy_of_the_Dragon_ZH.pdf', 'books/Legacy_of_the_Dragon_ZH.pdf', 'zh-pdf')" class="btn btn-primary download-btn">📥 免费下载 PDF</button>
+          <button onclick="openEmailGate('Legacy_of_the_Dragon_ZH.docx', 'books/Legacy_of_the_Dragon_ZH.docx', 'zh-docx')" class="btn btn-outline download-btn download-btn-sm">📄 DOCX</button>
         </div>
       </div>
     </div>

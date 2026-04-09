@@ -184,6 +184,77 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ ok });
     }
 
+    // ========== COLLECT EMAIL for download ==========
+    if (action === 'collect-email' && req.method === 'POST') {
+      const { email, book } = req.body;
+      if (!email) return res.status(400).json({ error: 'Email is required' });
+
+      const emailEntry = {
+        email: String(email).trim().toLowerCase(),
+        book: book || 'unknown',
+        timestamp: new Date().toISOString(),
+        ip: req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown',
+      };
+
+      // Try Supabase first
+      if (sbReady()) {
+        try {
+          await sbUpsert('ab_subscribers', emailEntry);
+        } catch (e) {
+          console.warn('Supabase email save error:', e.message);
+        }
+      }
+
+      // Also save to GitHub subscribers.json
+      try {
+        let subscribers = [];
+        const existing = await ghReadFile('subscribers.json');
+        if (Array.isArray(existing)) subscribers = existing;
+        // Check if email already exists for same book
+        const dup = subscribers.find(s => s.email === emailEntry.email && s.book === emailEntry.book);
+        if (!dup) {
+          subscribers.push(emailEntry);
+          await ghWriteFile('subscribers.json', subscribers, `📧 New subscriber: ${emailEntry.email}`);
+        }
+      } catch (e) {
+        console.warn('GitHub email save error:', e.message);
+      }
+
+      return res.status(200).json({ ok: true });
+    }
+
+    // ========== TRACK DOWNLOAD ==========
+    if (action === 'track-download' && req.method === 'POST') {
+      const { book } = req.body;
+      if (!book) return res.status(400).json({ error: 'Book name is required' });
+
+      let counts = {};
+      try {
+        const existing = await ghReadFile('download-counts.json');
+        if (existing && typeof existing === 'object') counts = existing;
+      } catch {}
+
+      counts[book] = (counts[book] || 0) + 1;
+      counts['_total'] = Object.keys(counts).filter(k => k !== '_total').reduce((s, k) => s + counts[k], 0);
+
+      try {
+        await ghWriteFile('download-counts.json', counts, `📊 Download tracked: ${book} (${counts[book]})`);
+      } catch (e) {
+        console.warn('GitHub count save error:', e.message);
+      }
+
+      return res.status(200).json({ ok: true, count: counts[book], total: counts['_total'] });
+    }
+
+    // ========== GET DOWNLOAD COUNTS ==========
+    if (action === 'get-downloads' && req.method === 'GET') {
+      try {
+        const counts = await ghReadFile('download-counts.json');
+        if (counts) return res.status(200).json(counts);
+      } catch {}
+      return res.status(200).json({ _total: 0 });
+    }
+
     return res.status(400).json({ error: 'Unknown action: ' + action });
 
   } catch (e) {

@@ -481,3 +481,174 @@ function initAds() {
     }
   });
 }
+
+// ══════════ DOWNLOAD TRACKING & EMAIL GATE ══════════
+
+const API_URL = '/api/data';
+let pendingDownload = { book: '', url: '', counterId: '' };
+
+// Load download counts on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadDownloadCounts();
+});
+
+async function loadDownloadCounts() {
+  try {
+    const res = await fetch(API_URL + '?action=get-downloads&t=' + Date.now());
+    if (!res.ok) return;
+    const counts = await res.json();
+    // Update counter displays
+    const mapping = {
+      'count-en-pdf': 'Legacy_of_the_Dragon_EN.pdf',
+      'count-en-docx': 'Legacy_of_the_Dragon_EN.docx',
+      'count-zh-pdf': 'Legacy_of_the_Dragon_ZH.pdf',
+      'count-zh-docx': 'Legacy_of_the_Dragon_ZH.docx',
+    };
+    for (const [elId, bookName] of Object.entries(mapping)) {
+      const el = document.getElementById(elId);
+      if (el && counts[bookName]) {
+        el.textContent = `📥 ${counts[bookName]} downloads`;
+      }
+    }
+    // Total counter in hero
+    if (counts._total) {
+      const totalEl = document.getElementById('totalDownloads');
+      if (totalEl) totalEl.textContent = counts._total;
+    }
+  } catch (e) {
+    console.warn('Failed to load download counts:', e);
+  }
+}
+
+// Check if user already registered email
+function isEmailRegistered() {
+  return !!localStorage.getItem('ipman_email');
+}
+
+// Open email gate modal
+function openEmailGate(bookName, bookUrl, counterId) {
+  pendingDownload = { book: bookName, url: bookUrl, counterId };
+
+  // If already registered, skip the form and download directly
+  if (isEmailRegistered()) {
+    triggerDownload();
+    return;
+  }
+
+  document.getElementById('emailBookName').value = bookName;
+  document.getElementById('emailBookUrl').value = bookUrl;
+  document.getElementById('emailInput').value = '';
+
+  const modal = document.getElementById('emailModal');
+  modal.classList.add('show');
+
+  // Reset to form view
+  const form = document.getElementById('emailForm');
+  form.style.display = '';
+  const privacy = document.querySelector('.email-modal-privacy');
+  if (privacy) privacy.style.display = '';
+
+  setTimeout(() => document.getElementById('emailInput').focus(), 300);
+}
+
+// Close modal
+function closeEmailModal() {
+  document.getElementById('emailModal').classList.remove('show');
+}
+
+// Handle form submit
+async function handleEmailSubmit(e) {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email) return false;
+
+  const btn = document.querySelector('.email-submit-btn');
+  btn.innerHTML = '<span>⏳ 处理中...</span>';
+  btn.disabled = true;
+
+  try {
+    // 1. Save email to backend
+    await fetch(API_URL + '?action=collect-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, book: pendingDownload.book }),
+    });
+
+    // 2. Save email locally (skip form next time)
+    localStorage.setItem('ipman_email', email);
+
+    // 3. Show success state
+    const modal = document.querySelector('.email-modal');
+    const form = document.getElementById('emailForm');
+    const privacy = document.querySelector('.email-modal-privacy');
+    const icon = document.querySelector('.email-modal-icon');
+    const title = document.querySelector('.email-modal-title');
+    const sub = document.querySelector('.email-modal-sub');
+
+    form.style.display = 'none';
+    if (privacy) privacy.style.display = 'none';
+    icon.innerHTML = '<div class="email-success-icon">✅</div>';
+    title.textContent = '感谢！Thank You!';
+    sub.innerHTML = '下载即将开始 · Download starting...';
+
+    // 4. Trigger the download
+    setTimeout(() => {
+      triggerDownload();
+      setTimeout(() => closeEmailModal(), 1500);
+    }, 1000);
+
+  } catch (err) {
+    console.warn('Email collection error:', err);
+    // Still allow download even if backend fails
+    localStorage.setItem('ipman_email', email);
+    triggerDownload();
+    closeEmailModal();
+  }
+
+  btn.innerHTML = '<span>📩 获取下载链接 · Get Download</span>';
+  btn.disabled = false;
+  return false;
+}
+
+// Trigger actual download + track it
+async function triggerDownload() {
+  const { book, url, counterId } = pendingDownload;
+
+  // Start download
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = book;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  // Track download count
+  try {
+    const res = await fetch(API_URL + '?action=track-download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ book }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      // Update counter display immediately
+      const el = document.getElementById('count-' + counterId);
+      if (el) el.textContent = `📥 ${data.count} downloads`;
+    }
+  } catch (e) {
+    console.warn('Download tracking error:', e);
+  }
+
+  // Reload counts to stay in sync
+  setTimeout(loadDownloadCounts, 2000);
+}
+
+// Close modal on overlay click
+document.getElementById('emailModal')?.addEventListener('click', function(e) {
+  if (e.target === this) closeEmailModal();
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeEmailModal();
+});

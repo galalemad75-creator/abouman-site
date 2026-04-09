@@ -787,3 +787,145 @@ input, textarea, select { font-family: inherit; }
   max-width: 728px;
   padding: 16px;
 }
+
+/* ══════════ EMAIL GATE MODAL ══════════ */
+.email-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+.email-modal-overlay.show {
+  display: flex;
+}
+.email-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 40px 32px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  animation: slideUp 0.4s ease;
+}
+.email-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.email-modal-close:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+.email-modal-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+.email-modal-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.email-modal-sub {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.email-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--bg-primary);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0 16px;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+.email-input-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.email-icon {
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+.email-input-wrap input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  padding: 14px 0;
+  outline: none;
+  font-family: var(--font);
+}
+.email-input-wrap input::placeholder {
+  color: var(--text-muted);
+}
+.email-submit-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 14px 24px;
+}
+.email-modal-privacy {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.email-success-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  animation: bounceIn 0.5s ease;
+}
+
+/* ══════════ DOWNLOAD COUNTERS ══════════ */
+.download-count {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-top: 8px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+.download-count-sm {
+  font-size: 0.72rem;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+/* ══════════ ANIMATIONS ══════════ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes bounceIn {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
