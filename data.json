@@ -136,7 +136,7 @@
         {
           "id": 9,
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legacy_Lives_On_Music1.mp3",
-          "image": "",
+          "image": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/assets/chapter_cover_9.png",
           "title": "The Legacy Lives On",
           "created": "2026-04-08T06:42:00Z",
           "file_path": "audio/The_Legacy_Lives_On_Music1.mp3"
@@ -152,7 +152,7 @@
         {
           "id": 10,
           "audio": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/audio/The_Legacy_Lives_On_Music2.mp3",
-          "image": "",
+          "image": "https://raw.githubusercontent.com/galalemad75-creator/abouman-site/main/assets/chapter_cover_10.png",
           "title": "The Legacy Lives On",
           "created": "2026-04-08T06:42:00Z",
           "file_path": "audio/The_Legacy_Lives_On_Music2.mp3"
