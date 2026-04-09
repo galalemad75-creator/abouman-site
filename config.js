@@ -4,6 +4,7 @@ const DB = {
   _cache: null, _source: 'none',
 
   async init() {
+    // Try API first (Vercel serverless)
     try {
       const res = await fetch(API + '?action=read&t=' + Date.now());
       if (!res.ok) throw new Error('API read failed');
@@ -11,13 +12,41 @@ const DB = {
       if (data.chapters && data.chapters.length > 0) {
         this._cache = { chapters: data.chapters, nextId: data.settings?.nextId || { chapter: 11, song: 1 }, admin: data.settings?.admin || { email: '', password: '' } };
         this._source = data.source || 'api';
-      } else {
-        this._cache = { chapters: [], nextId: { chapter: 11, song: 1 }, admin: { email: '', password: '' } };
+        localStorage.setItem('ab_cache', JSON.stringify(this._cache));
+        return this._cache;
       }
-    } catch (e) {
-      this._cache = { chapters: [], nextId: { chapter: 11, song: 1 }, admin: {} };
+    } catch (e) { /* API unavailable, try static fallback */ }
+
+    // Fallback: read data.json directly (works on GitHub Pages)
+    try {
+      const res = await fetch('data.json?t=' + Date.now());
+      if (res.ok) {
+        const data = await res.json();
+        if (data.chapters && data.chapters.length > 0) {
+          this._cache = {
+            chapters: data.chapters,
+            nextId: data.nextId || { chapter: 11, song: 1 },
+            admin: data.admin || { email: '', password: '' }
+          };
+          this._source = 'static';
+          localStorage.setItem('ab_cache', JSON.stringify(this._cache));
+          return this._cache;
+        }
+      }
+    } catch (e) { /* data.json not found */ }
+
+    // Last resort: use localStorage cache
+    const cached = localStorage.getItem('ab_cache');
+    if (cached) {
+      try {
+        this._cache = JSON.parse(cached);
+        this._source = 'cache';
+        return this._cache;
+      } catch(e) {}
     }
-    localStorage.setItem('ab_cache', JSON.stringify(this._cache));
+
+    this._cache = { chapters: [], nextId: { chapter: 11, song: 1 }, admin: { email: '', password: '' } };
+    this._source = 'empty';
     return this._cache;
   },
 

@@ -278,7 +278,7 @@ function openChapter(id) {
   }
 
   // Hide main sections
-  ['hero', 'about', 'chapters', 'buySection'].forEach(sId => {
+  ['hero', 'about', 'chapters', 'downloads', 'buySection'].forEach(sId => {
     const el = document.getElementById(sId);
     if (el) el.style.display = 'none';
   });
@@ -318,7 +318,7 @@ function createSongsView() {
 }
 
 function showHome() {
-  ['hero', 'about', 'chapters'].forEach(id => {
+  ['hero', 'about', 'chapters', 'downloads'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = '';
   });
