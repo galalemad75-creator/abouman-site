@@ -218,9 +218,10 @@
           <h3>Legacy of the Dragon</h3>
           <p>English Edition</p>
         </div>
-        <a href="books/Legacy_of_the_Dragon_EN.docx" download class="btn btn-primary download-btn">
-          📥 Download Free
-        </a>
+        <div class="download-btns">
+          <a href="books/Legacy_of_the_Dragon_EN.pdf" download class="btn btn-primary download-btn">📥 Download PDF</a>
+          <a href="books/Legacy_of_the_Dragon_EN.docx" download class="btn btn-outline download-btn download-btn-sm">📄 DOCX</a>
+        </div>
       </div>
       <div class="download-card">
         <div class="download-icon">🇨🇳</div>
@@ -228,9 +229,10 @@
           <h3>龙之传承</h3>
           <p>中文版 · Chinese Edition</p>
         </div>
-        <a href="books/Legacy_of_the_Dragon_ZH.docx" download class="btn btn-primary download-btn">
-          📥 免费下载
-        </a>
+        <div class="download-btns">
+          <a href="books/Legacy_of_the_Dragon_ZH.pdf" download class="btn btn-primary download-btn">📥 免费下载 PDF</a>
+          <a href="books/Legacy_of_the_Dragon_ZH.docx" download class="btn btn-outline download-btn download-btn-sm">📄 DOCX</a>
+        </div>
       </div>
     </div>
   </div>
@@ -370,6 +372,9 @@
     <button onclick="closePlayer()" class="np-btn np-close">✕</button>
   </div>
 </div>
+
+<!-- Floating Home Button -->
+<button class="fab-home" id="fabHome" onclick="showHome()" title="返回首页 · Home">🏠</button>
 
 <!-- Theme Player (auto-play on interaction) -->
 <audio id="themePlayer" loop preload="auto"></audio>

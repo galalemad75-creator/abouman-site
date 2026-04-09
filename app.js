@@ -303,6 +303,7 @@ function openChapter(id) {
     `).join('');
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('fabHome')?.classList.add('show');
 }
 
 function createSongsView() {
@@ -310,7 +311,7 @@ function createSongsView() {
   sv.id = 'songsView';
   sv.className = 'songs-view';
   sv.innerHTML = `
-    <button class="back-btn" onclick="showHome()">← 返回章节</button>
+    <button class="back-btn back-btn-main" onclick="showHome()">🏠 返回首页 · Back to Home</button>
     <h2 id="chapterTitle" style="margin-bottom:24px;"></h2>
     <div id="songsList"></div>
   `;
@@ -328,6 +329,7 @@ function showHome() {
   const sv = document.getElementById('songsView');
   if (sv) sv.style.display = 'none';
   currentChapter = null;
+  document.getElementById('fabHome')?.classList.remove('show');
 
   // Resume theme song
   if (themeStarted) {
