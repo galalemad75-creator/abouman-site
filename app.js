@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initChapters();
   initThemeSong();
+  initAds();
 });
 
 /* ══════════ OPENING CREDITS ══════════ */
@@ -458,3 +459,25 @@ window.addEventListener('load', () => {
     if (preloader) { preloader.classList.add('hide'); setTimeout(() => preloader.style.display = 'none', 600); }
   }, 800);
 });
+
+// ═══ Ads Loader ═══
+function initAds() {
+  ['top', 'middle', 'bottom'].forEach(slot => {
+    const code = localStorage.getItem('ipman_ad_' + slot);
+    const el = document.getElementById('ad-' + slot);
+    if (el && code) {
+      el.innerHTML = code;
+      el.style.display = 'block';
+      // Execute any scripts in the injected ad code
+      const scripts = el.querySelectorAll('script');
+      scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+        newScript.textContent = oldScript.textContent;
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
+    } else if (el) {
+      el.style.display = 'none';
+    }
+  });
+}
